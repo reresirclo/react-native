@@ -1,16 +1,12 @@
 import React from 'react';
-import { Text, Button } from 'react-native';
+import { View } from 'react-native';
+import CustomTouchOpacity from '../../component/CustomTouchOpacity';
+import Layout from '../../component/Layout';
 
-const Home = ({ navigation }) => {
-  return (
-    <>
-      <Text>Home</Text>
-      <Button
-        title="Go to Profile"
-        onPress={() => navigation.navigate('Profile')}
-      />
-    </>
-  );
-};
+const Home = ({ navigation }) => (
+	<Layout>
+		<CustomTouchOpacity onPress={() => navigation.navigate('Profile')} title={'Go to Profile'} />
+	</Layout>
+);
 
 export default Home;

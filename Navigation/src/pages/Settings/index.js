@@ -1,14 +1,15 @@
 import React from 'react';
-import {
-  Text
-} from 'react-native';
+import { Button, View } from 'react-native';
+import CustomTouchOpacity from '../../component/CustomTouchOpacity';
+import Layout from '../../component/Layout';
 
-const Settings = () => {
-    return (
-        <Text>
-            Home
-        </Text>
-    )
-}
+const Settings = ({ navigation }) => (
+	<Layout>
+		<CustomTouchOpacity
+			onPress={() => navigation.goBack()}
+			title={'Go Back'}
+		/>
+	</Layout>
+);
 
 export default Settings;

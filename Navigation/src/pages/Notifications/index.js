@@ -1,8 +1,20 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Button, View } from 'react-native';
+import CustomTouchOpacity from '../../component/CustomTouchOpacity';
+import Layout from '../../component/Layout';
 
-const Notifications = () => {
-  return <Text>Home</Text>;
-};
+const Notifications = ({ navigation }) => (
+	<Layout>
+		<CustomTouchOpacity
+			style={{ marginBottom: 10 }}
+			title="Go to Settings"
+			onPress={() => navigation.navigate('Settings')}
+		/>
+		<CustomTouchOpacity
+			onPress={() => navigation.goBack()}
+			title={'Go Back'}
+		/>
+	</Layout>
+);
 
 export default Notifications;

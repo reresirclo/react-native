@@ -1,16 +1,20 @@
 import React from 'react';
-import { View, Button } from 'react-native';
+import { View } from 'react-native';
+import CustomTouchOpacity from '../../component/CustomTouchOpacity';
+import Layout from '../../component/Layout';
 
-const Profile = ({ navigation }) => {
-  return (
-    <View>
-      <Button
-        title="Go to Notifications"
-        onPress={() => navigation.navigate('Notifications')}
-      />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-    </View>
-  );
-};
+const Profile = ({ navigation }) => (
+	<Layout>
+		<CustomTouchOpacity
+			style={{ marginBottom: 10 }}
+			onPress={() => navigation.navigate('Notifications')}
+			title={'Go to Notifications'}
+		/>
+		<CustomTouchOpacity
+			onPress={() => navigation.goBack()}
+			title={'Go Back'}
+		/>
+	</Layout>
+);
 
 export default Profile;
