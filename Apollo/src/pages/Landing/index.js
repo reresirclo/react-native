@@ -20,7 +20,7 @@ const Landing = ({ navigation }) => {
 	const [txtInputEmail, setTxtInputEmail] = useState(createRef());
 	const [txtInputPassword, setTxtInputPassword] = useState(createRef());
 
-	const [customerLogin, { loading, data, error }] = useMutation(
+	const [customerLogin, { loading, data, error, called }] = useMutation(
 		CUSTOMER_LOGIN,
 		{
 			onError: error => {
@@ -33,15 +33,14 @@ const Landing = ({ navigation }) => {
                 }
                 
                 txtInputEmail.focus();
-			},
+            },
+            onCompleted: data => {
+                navigation.navigate('Profile', {
+                    token: data.generateCustomerToken.token,
+                });
+            }
 		},
 	);
-
-	if (!error && !loading && data) {
-		navigation.navigate('Profile', {
-			token: data.generateCustomerToken.token,
-		});
-	}
 
 	const doLogin = () => {
 		customerLogin({
