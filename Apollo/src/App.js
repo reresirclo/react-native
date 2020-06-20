@@ -1,27 +1,30 @@
+import { ApolloProvider } from '@apollo/react-hooks';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import ApolloClient from 'apollo-boost';
 import React from 'react';
-import Home from './pages/Home';
+import Landing from './pages/Landing';
 import Profile from './pages/Profile';
-import Notifications from './pages/Notifications';
-import Settings from './pages/Settings';
 
+const client = new ApolloClient({
+	uri: 'https://lottemart.testingnow.me/graphql',
+});
 const Stack = createStackNavigator();
 
 const MyStack = () => (
 	<Stack.Navigator>
-		<Stack.Screen name="Home" component={Home} />
+		<Stack.Screen name="Landing" component={Landing} />
 		<Stack.Screen name="Profile" component={Profile} />
-		<Stack.Screen name="Notifications" component={Notifications} />
-		<Stack.Screen name="Settings" component={Settings} />
 	</Stack.Navigator>
 );
 
 const App = () => {
 	return (
-		<NavigationContainer>
-			<MyStack />
-		</NavigationContainer>
+		<ApolloProvider client={client}>
+			<NavigationContainer>
+				<MyStack />
+			</NavigationContainer>
+		</ApolloProvider>
 	);
 };
 
