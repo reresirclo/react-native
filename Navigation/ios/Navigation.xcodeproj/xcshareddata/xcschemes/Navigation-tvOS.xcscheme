@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-               BuildableName = "Explore-tvOS.app"
-               BlueprintName = "Explore-tvOS"
-               ReferencedContainer = "container:Explore.xcodeproj">
+               BuildableName = "Navigation-tvOS.app"
+               BlueprintName = "Navigation-tvOS"
+               ReferencedContainer = "container:Navigation.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "Explore-tvOSTests.xctest"
-               BlueprintName = "Explore-tvOSTests"
-               ReferencedContainer = "container:Explore.xcodeproj">
+               BuildableName = "Navigation-tvOSTests.xctest"
+               BlueprintName = "Navigation-tvOSTests"
+               ReferencedContainer = "container:Navigation.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "Explore-tvOS.app"
-            BlueprintName = "Explore-tvOS"
-            ReferencedContainer = "container:Explore.xcodeproj">
+            BuildableName = "Navigation-tvOS.app"
+            BlueprintName = "Navigation-tvOS"
+            ReferencedContainer = "container:Navigation.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "Explore-tvOS.app"
-            BlueprintName = "Explore-tvOS"
-            ReferencedContainer = "container:Explore.xcodeproj">
+            BuildableName = "Navigation-tvOS.app"
+            BlueprintName = "Navigation-tvOS"
+            ReferencedContainer = "container:Navigation.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.explore"
+        applicationId "com.navigation"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

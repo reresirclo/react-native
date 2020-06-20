@@ -44,8 +44,8 @@ def flipper_post_install(installer)
   end
 end
 
-target 'Explore' do
-  # Pods for Explore
+target 'Navigation' do
+  # Pods for Navigation
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -77,7 +77,7 @@ target 'Explore' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  target 'ExploreTests' do
+  target 'NavigationTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -94,10 +94,10 @@ target 'Explore' do
   end
 end
 
-target 'Explore-tvOS' do
-  # Pods for Explore-tvOS
+target 'Navigation-tvOS' do
+  # Pods for Navigation-tvOS
 
-  target 'Explore-tvOSTests' do
+  target 'Navigation-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
