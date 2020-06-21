@@ -1,13 +1,13 @@
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+import { useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import React, { useState } from 'react';
 import {
-	ActivityIndicator,
-	FlatList,
-	Image,
-	Text,
-	TouchableOpacity,
-	View,
+    ActivityIndicator,
+    FlatList,
+    Image,
+    Text,
+    TouchableOpacity,
+    View
 } from 'react-native';
 import Layout from '../../component/Layout';
 
@@ -124,8 +124,8 @@ const Product = props => {
 								<Text
 									style={{
 										textAlign: 'center',
-                                        fontSize: 25,
-                                        color: "gray"
+										fontSize: 25,
+										color: 'gray',
 									}}>
 									End of Product
 								</Text>

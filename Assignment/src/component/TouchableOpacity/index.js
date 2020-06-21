@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 
 const CustomTouchableOpacity = props => {
 	return (

@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useEffect } from 'react';
+import React from 'react';
 import CategoryList from './CategoryList';
 
 const Product = props => {
@@ -7,10 +7,7 @@ const Product = props => {
 
 	return (
 		<Stack.Navigator>
-			<Stack.Screen
-				name="Product"
-				component={CategoryList}
-			/>
+			<Stack.Screen name="Product" component={CategoryList} />
 		</Stack.Navigator>
 	);
 };

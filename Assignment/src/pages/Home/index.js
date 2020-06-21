@@ -1,10 +1,9 @@
+import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import React from 'react';
 import { Text } from 'react-native';
-import Layout from '../../component/Layout';
-import { createStackNavigator } from '@react-navigation/stack';
-import { useQuery } from '@apollo/react-hooks';
 import { useDispatch, useSelector } from 'react-redux';
+import Layout from '../../component/Layout';
 import { setNotifications } from '../../redux/actions';
 
 const CUSTOMER_LOGIN = gql`
@@ -30,7 +29,7 @@ const CUSTOMER_NOTIFICATION_LIST = gql`
 	}
 `;
 
-const Index = ({ navigation }) => {
+const Index = () => {
 	const token = useSelector(state => state.token);
 	const dispatch = useDispatch();
 	useQuery(CUSTOMER_NOTIFICATION_LIST, {
@@ -41,6 +40,7 @@ const Index = ({ navigation }) => {
 		},
 		onCompleted: data => {
 			const { items, totalUnread } = data.customerNotificationList;
+			console.log(totalUnread);
 			dispatch(
 				setNotifications({
 					data: items,

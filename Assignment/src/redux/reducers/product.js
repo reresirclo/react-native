@@ -1,12 +1,12 @@
 const initState = {
-	title: "",
-	urlKey: "",
+	title: '',
+	urlKey: '',
 	data: [],
-}
+};
 const product = (state = initState, action) => {
 	switch (action.type) {
 		case 'SET_PRODUCT':
-			return action.product
+			return action.product;
 		default:
 			return state;
 	}

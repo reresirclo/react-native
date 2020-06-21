@@ -1,19 +1,17 @@
 import React from 'react';
 import {
-    ActivityIndicator, FlatList,
+    FlatList,
     Text,
-
-
-    TouchableOpacity, View
+    TouchableOpacity,
+    View
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import Layout from '../../component/Layout';
 
-
 const List = ({ navigation }) => {
 	let data = [];
 	const token = useSelector(state => state.token);
-    const notifications = useSelector(state => state.notifications);
+	const notifications = useSelector(state => state.notifications);
 
 	data = notifications.data;
 

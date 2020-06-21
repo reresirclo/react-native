@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import token from './token';
-import product from './product';
 import notifications from './notifications';
+import product from './product';
+import token from './token';
 
 export default combineReducers({
 	token,

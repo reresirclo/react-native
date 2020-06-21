@@ -1,13 +1,14 @@
+import { useLazyQuery } from '@apollo/react-hooks';
 import AsyncStorage from '@react-native-community/async-storage';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { gql } from 'apollo-boost';
 import React, { useEffect, useState } from 'react';
-import { Text, View, AppState } from 'react-native';
+import { Text, View } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch, useSelector } from 'react-redux';
-import { setToken, setNotifications } from '../../redux/actions';
+import { setNotifications, setToken } from '../../redux/actions';
 import Home from '../Home';
 import Landing from '../Landing';
 import Notifications from '../Notifications';
@@ -17,7 +18,6 @@ import CategoryList from '../Product/CategoryList';
 import ProductList from '../Product/ProductList';
 import Profile from '../Profile';
 import Splashscreen from '../Splashscreen';
-import { useLazyQuery } from '@apollo/react-hooks';
 
 const CUSTOMER_NOTIFICATION_LIST = gql`
 	query {
@@ -41,7 +41,6 @@ const IconWithBadge = ({ name, badgeCount, color, size }) => {
 			{badgeCount > 0 && (
 				<View
 					style={{
-						// On React Native < 0.57 overflow outside of parent will not work on Android, see https://git.io/fhLJ8
 						position: 'absolute',
 						right: '-50%',
 						top: -3,
@@ -128,7 +127,7 @@ const Root = () => {
 	const [getNotifications] = useLazyQuery(CUSTOMER_NOTIFICATION_LIST, {
 		onCompleted: data => {
 			const { items, totalUnread } = data.customerNotificationList;
-			console.log('dddd')
+			console.log('dddd');
 			dispatch(
 				setNotifications({
 					data: items,
