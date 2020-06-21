@@ -1,4 +1,3 @@
-import { useLazyQuery } from '@apollo/react-hooks';
 import AsyncStorage from '@react-native-community/async-storage';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
@@ -8,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch, useSelector } from 'react-redux';
-import { setNotifications, setToken } from '../../redux/actions';
+import { setToken } from '../../redux/actions';
 import Home from '../Home';
 import Landing from '../Landing';
 import Notifications from '../Notifications';
@@ -130,47 +129,40 @@ const Root = () => {
 			setLoading(true);
 			const token = (await AsyncStorage.getItem('token')) || '';
 			dispatch(setToken(token));
-			setFadeOut(true)
+			setFadeOut(true);
 			setTimeout(() => {
 				setLoading(false);
-			},500)
-			
+			}, 500);
 		};
 
 		getToken();
 	}, []);
 
-	const mainContent = token === '' ? (
-		<Landing />
-	) : (
-		<RootStack.Navigator>
-			<RootStack.Screen
-				name="Home"
-				options={{ headerShown: false }}
-				component={HomeTabs}
-			/>
-			<RootStack.Screen
-				name="Category List"
-				component={CategoryList}
-			/>
-			<RootStack.Screen
-				name="Product List"
-				component={ProductList}
-			/>
-			<RootStack.Screen
-				name="Detail Notification"
-				component={DetailNotification}
-			/>
-		</RootStack.Navigator>
-	)
+	const mainContent =
+		token === '' ? (
+			<Landing />
+		) : (
+			<RootStack.Navigator>
+				<RootStack.Screen
+					name="Home"
+					options={{ headerShown: false }}
+					component={HomeTabs}
+				/>
+				<RootStack.Screen
+					name="Category List"
+					component={CategoryList}
+				/>
+				<RootStack.Screen name="Product List" component={ProductList} />
+				<RootStack.Screen
+					name="Detail Notification"
+					component={DetailNotification}
+				/>
+			</RootStack.Navigator>
+		);
 
-	const content = loading ? <Splashscreen fadeOut={fadeOut}/> : mainContent;
+	const content = loading ? <Splashscreen fadeOut={fadeOut} /> : mainContent;
 
-	return (
-		<NavigationContainer>
-			{content}
-		</NavigationContainer>
-	);
+	return <NavigationContainer>{content}</NavigationContainer>;
 };
 
 export default Root;

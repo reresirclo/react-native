@@ -2,7 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import CategoryList from './CategoryList';
 
-const Product = props => {
+const Product = () => {
 	const Stack = createStackNavigator();
 
 	return (

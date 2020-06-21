@@ -76,7 +76,7 @@ const Detail = props => {
 	}, [id]);
 
 	return (
-		<Layout style={{paddingHorizontal: 15}}>
+		<Layout style={{ paddingHorizontal: 15 }}>
 			<Text
 				style={{
 					width: '100%',

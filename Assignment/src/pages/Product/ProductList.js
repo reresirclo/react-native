@@ -119,17 +119,20 @@ const Product = props => {
 					data={productList}
 					ListFooterComponent={() => {
 						return (
-							(!loading && data.products.page_info.total_pages ===
-								currentPage && (
-								<Text
-									style={{
-										textAlign: 'center',
-										fontSize: 25,
-										color: 'gray',
-									}}>
-									End of Product
-								</Text>
-							)) || <ActivityIndicator size="large" color="red" />
+							(!loading &&
+								data.products.page_info.total_pages ===
+									currentPage && (
+									<Text
+										style={{
+											textAlign: 'center',
+											fontSize: 25,
+											color: 'gray',
+										}}>
+										End of Product
+									</Text>
+								)) || (
+								<ActivityIndicator size="large" color="red" />
+							)
 						);
 					}}
 					ListFooterComponentStyle={{

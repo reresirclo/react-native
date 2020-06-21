@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/react-hooks';
 import AsyncStorage from '@react-native-community/async-storage';
 import { gql } from 'apollo-boost';
 import React, { createRef, useState } from 'react';
-import { Platform, ToastAndroid, View, Text } from 'react-native';
+import { Platform, Text, ToastAndroid, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Layout from '../../component/Layout';
 import CustomTextInput from '../../component/TextInput';
@@ -17,7 +17,7 @@ const CUSTOMER_LOGIN = gql`
 	}
 `;
 
-const Landing = ({ navigation }) => {
+const Landing = () => {
 	const dispatch = useDispatch();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -25,6 +25,7 @@ const Landing = ({ navigation }) => {
 	const [txtInputPassword, setTxtInputPassword] = useState(createRef());
 
 	const [customerLogin, { loading }] = useMutation(CUSTOMER_LOGIN, {
+		errorPolicy: 'none',
 		onError: error => {
 			const msg = error.message;
 
@@ -54,7 +55,9 @@ const Landing = ({ navigation }) => {
 
 	return (
 		<Layout>
-			<Text style={{ color: 'red', fontSize: 40, marginBottom: 100 }}>Assignment</Text>
+			<Text style={{ color: 'red', fontSize: 40, marginBottom: 100 }}>
+				Assignment
+			</Text>
 			<View style={{ width: '100%', padding: 25 }}>
 				<CustomTextInput
 					autoCompleteType="email"

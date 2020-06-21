@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Text, View, Animated } from 'react-native';
+import { Animated, Text, View } from 'react-native';
 import Layout from '../../component/Layout';
 
 const Splashscreen = props => {

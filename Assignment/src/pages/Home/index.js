@@ -40,7 +40,6 @@ const Index = () => {
 		},
 		onCompleted: data => {
 			const { items, totalUnread } = data.customerNotificationList;
-			console.log(totalUnread);
 			dispatch(
 				setNotifications({
 					data: items,

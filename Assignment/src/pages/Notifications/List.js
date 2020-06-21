@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-    FlatList,
-    Text,
-    TouchableOpacity,
-    View
-} from 'react-native';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import Layout from '../../component/Layout';
 
