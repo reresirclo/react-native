@@ -121,74 +121,54 @@ const HomeTabs = () => {
 const Root = () => {
 	const token = useSelector(state => state.token);
 	const [loading, setLoading] = useState(true);
+	const [fadeOut, setFadeOut] = useState(false);
 	const dispatch = useDispatch();
 	const RootStack = createStackNavigator();
-
-	const [getNotifications] = useLazyQuery(CUSTOMER_NOTIFICATION_LIST, {
-		onCompleted: data => {
-			const { items, totalUnread } = data.customerNotificationList;
-			console.log('dddd');
-			dispatch(
-				setNotifications({
-					data: items,
-					totalUnread,
-				}),
-			);
-		},
-	});
 
 	useEffect(() => {
 		const getToken = async () => {
 			setLoading(true);
 			const token = (await AsyncStorage.getItem('token')) || '';
-
-			if (token !== '') {
-				await getNotifications({
-					context: {
-						headers: {
-							authorization: `Bearer ${token}`,
-						},
-					},
-				});
-			}
-
 			dispatch(setToken(token));
-
-			setLoading(false);
+			setFadeOut(true)
+			setTimeout(() => {
+				setLoading(false);
+			},500)
+			
 		};
 
 		getToken();
 	}, []);
 
-	if (loading) {
-		return <Splashscreen />;
-	}
+	const mainContent = token === '' ? (
+		<Landing />
+	) : (
+		<RootStack.Navigator>
+			<RootStack.Screen
+				name="Home"
+				options={{ headerShown: false }}
+				component={HomeTabs}
+			/>
+			<RootStack.Screen
+				name="Category List"
+				component={CategoryList}
+			/>
+			<RootStack.Screen
+				name="Product List"
+				component={ProductList}
+			/>
+			<RootStack.Screen
+				name="Detail Notification"
+				component={DetailNotification}
+			/>
+		</RootStack.Navigator>
+	)
+
+	const content = loading ? <Splashscreen fadeOut={fadeOut}/> : mainContent;
 
 	return (
 		<NavigationContainer>
-			{token == '' ? (
-				<Landing />
-			) : (
-				<RootStack.Navigator>
-					<RootStack.Screen
-						name="Home"
-						options={{ headerShown: false }}
-						component={HomeTabs}
-					/>
-					<RootStack.Screen
-						name="Category List"
-						component={CategoryList}
-					/>
-					<RootStack.Screen
-						name="Product List"
-						component={ProductList}
-					/>
-					<RootStack.Screen
-						name="Detail Notification"
-						component={DetailNotification}
-					/>
-				</RootStack.Navigator>
-			)}
+			{content}
 		</NavigationContainer>
 	);
 };

@@ -2,12 +2,12 @@ import { useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import React, { useState } from 'react';
 import {
-    ActivityIndicator,
-    FlatList,
-    Image,
-    Text,
-    TouchableOpacity,
-    View
+	ActivityIndicator,
+	FlatList,
+	Image,
+	Text,
+	TouchableOpacity,
+	View,
 } from 'react-native';
 import Layout from '../../component/Layout';
 
@@ -119,7 +119,7 @@ const Product = props => {
 					data={productList}
 					ListFooterComponent={() => {
 						return (
-							(data.products.page_info.total_pages ===
+							(!loading && data.products.page_info.total_pages ===
 								currentPage && (
 								<Text
 									style={{
@@ -157,7 +157,6 @@ const Product = props => {
 									},
 									shadowOpacity: 0.2,
 									shadowRadius: 1.41,
-
 									elevation: 2,
 								}}>
 								<Image

@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/react-hooks';
 import AsyncStorage from '@react-native-community/async-storage';
 import { gql } from 'apollo-boost';
 import React, { createRef, useState } from 'react';
-import { Platform, ToastAndroid, View } from 'react-native';
+import { Platform, ToastAndroid, View, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Layout from '../../component/Layout';
 import CustomTextInput from '../../component/TextInput';
@@ -54,6 +54,7 @@ const Landing = ({ navigation }) => {
 
 	return (
 		<Layout>
+			<Text style={{ color: 'red', fontSize: 40, marginBottom: 100 }}>Assignment</Text>
 			<View style={{ width: '100%', padding: 25 }}>
 				<CustomTextInput
 					autoCompleteType="email"
