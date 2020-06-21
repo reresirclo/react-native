@@ -1,8 +1,4 @@
-const initState = {
-	token: null,
-};
-
-const token = (state = initState, action) => {
+const token = (state = null, action) => {
 	switch (action.type) {
 		case 'SET_TOKEN':
 			return action.token;
