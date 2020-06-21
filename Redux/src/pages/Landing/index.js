@@ -40,9 +40,7 @@ const Landing = ({ navigation }) => {
 			onCompleted: data => {
 				const { token } = data.generateCustomerToken;
 				dispatch(setToken(token))
-				navigation.navigate('Profile', {
-					token: token,
-				});
+				navigation.navigate('Profile');
 			},
 		},
 	);
