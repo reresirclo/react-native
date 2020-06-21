@@ -1,33 +1,40 @@
+import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import React from 'react';
 import {
-	TouchableOpacity,
+	ActivityIndicator,
 	FlatList,
 	StyleSheet,
 	Text,
+	TouchableOpacity,
 	View,
 } from 'react-native';
 import Layout from '../../component/Layout';
 
-const CUSTOMER_LOGIN = gql`
+const CATEGORY_LIST = gql`
 	query {
 		categoryList(filters: { name: { match: "default" } }) {
 			children {
+				id
+				level
 				url_key
 				name
 				is_anchor
 				children {
+					id
+					level
 					url_key
 					name
 					is_anchor
 					children {
+						id
+						level
 						url_key
 						name
 						is_anchor
 					}
 				}
 			}
-			url_key
 		}
 	}
 `;
@@ -40,110 +47,92 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 32,
+		textAlign: 'center',
 	},
 });
 
-const CategoryList = ({ navigation }) => {
-	const DATA = [
-		{
-			id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-			title: 'First Item',
-		},
-		{
-			id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-			title: 'Second Item',
-		},
-		{
-			id: '58694a0f-3da1-471f-bd96-145571e29d72',
-			title: 'Third Item',
-		},
-	];
+const CategoryList = props => {
+	const { navigation } = props;
+	const { params } = props.route;
 
-	function Item({ id, title }) {
+	let categoryList = [];
+
+	const Item = ({ id, title, children, level, urlKey }) => {
 		return (
 			<View style={{ borderBottomWidth: 1 }}>
 				<TouchableOpacity
 					onPress={() => {
-						navigation.push('Category List');
+						if (level === 4) {
+							navigation.push('Product List', {
+								children: children,
+								headerTitle: title,
+								id,
+							});
+						} else {
+							if (children.length > 0) {
+								navigation.push('Category List', {
+									children: children,
+									headerTitle: title,
+									id,
+								});
+							} else {
+								navigation.push('Product List', {
+									children: children,
+									headerTitle: title,
+									id,
+								});
+							}
+						}
 					}}
 					style={[styles.item]}>
 					<Text style={styles.title}>{title}</Text>
 				</TouchableOpacity>
 			</View>
 		);
-	}
+	};
 
-	function ParentItem({ id, title, content }) {
-		return (
-			<View style={{ borderBottomWidth: 1 }}>
-				<Text style={styles.title}>{title}</Text>
-				{content}
-			</View>
-		);
-	}
+	if (params) {
+		const { children, headerTitle } = params;
+		categoryList = children;
 
-	const asd = [
-		{
-			id: '1',
-			title: 'Cat 1',
-			content: (
-				<FlatList
-					scrollEnabled
-					style={{ width: '100%' }}
-					data={DATA}
-					renderItem={({ item }) => (
-						<Item id={item.id} title={item.title} />
-					)}
-					keyExtractor={item => item.id}
-				/>
-			),
-		},
-		{
-			id: '2',
-			title: 'Cat 2',
-			content: (
-				<FlatList
-					scrollEnabled
-					style={{ width: '100%' }}
-					data={DATA}
-					renderItem={({ item }) => (
-						<Item id={item.id} title={item.title} />
-					)}
-					keyExtractor={item => item.id}
-				/>
-			),
-        },
-        {
-			id: '3',
-			title: 'Cat 3',
-			content: (
-				<FlatList
-					scrollEnabled
-					style={{ width: '100%' }}
-					data={DATA}
-					renderItem={({ item }) => (
-						<Item id={item.id} title={item.title} />
-					)}
-					keyExtractor={item => item.id}
-				/>
-			),
-		},
-	];
+		navigation.setOptions({
+			title: headerTitle,
+		});
+	} else {
+		const { data, loading, error } = useQuery(CATEGORY_LIST);
+
+		if (loading) {
+			return (
+				<Layout>
+					<ActivityIndicator size="large" color="red" />
+				</Layout>
+			);
+		}
+
+		if (data) {
+			let [root] = data.categoryList;
+			categoryList = root.children.filter(item => {
+				return item.children.length > 0 && item.level === 2;
+			});
+		}
+	}
 
 	return (
 		<Layout>
 			<FlatList
 				scrollEnabled
 				style={{ width: '100%' }}
-				data={asd}
+				data={categoryList}
 				renderItem={({ item }) => (
-					<ParentItem
+					<Item
 						id={item.id}
-						content={item.content}
-						title={item.title}
+						title={item.name}
+						children={item.children}
+						level={item.level}
+						urlKey={item.url_key}
 					/>
 				)}
-				keyExtractor={item => item.id}
+				keyExtractor={item => String(item.id)}
 			/>
 		</Layout>
 	);

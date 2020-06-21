@@ -3,6 +3,7 @@ import React from 'react';
 import { Text } from 'react-native';
 import Layout from '../../component/Layout';
 import { createStackNavigator } from '@react-navigation/stack';
+import List from './List';
 
 const CUSTOMER_NOTIFICATION_LIST = gql`
 	query {
@@ -19,20 +20,12 @@ const CUSTOMER_NOTIFICATION_LIST = gql`
 	}
 `;
 
-const Content = () => {
-	return (
-		<Layout>
-			<Text>Notification</Text>
-		</Layout>
-	);
-}
-
 const Notifications = ({ navigation }) => {
 	const Stack = createStackNavigator();
 
 	return (
 		<Stack.Navigator>
-			<Stack.Screen name="Notifications" component={Content} />
+			<Stack.Screen name="Notifications" component={List} />
 		</Stack.Navigator>
 	);
 };

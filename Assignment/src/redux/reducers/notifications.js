@@ -1,12 +1,11 @@
 const initState = {
-	title: "",
-	urlKey: "",
 	data: [],
+	totalUnread: 0,
 }
 const product = (state = initState, action) => {
 	switch (action.type) {
-		case 'SET_PRODUCT':
-			return action.product
+		case 'SET_NOTIFICATIONS':
+			return action.notifications
 		default:
 			return state;
 	}

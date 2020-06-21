@@ -6,7 +6,7 @@ import { ActivityIndicator, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Layout from '../../component/Layout';
 import CustomTouchOpacity from '../../component/TouchableOpacity';
-import { setToken } from '../../redux/actions';
+import { setToken, setNotifications } from '../../redux/actions';
 
 const CUSTOMER = gql`
 	query {
@@ -24,12 +24,14 @@ const Profile = props => {
 	const token = useSelector(state => state.token);
 	let content = <ActivityIndicator size="large" color="red" />;
 
+	
 	if (!token) {
 		navigation.navigate('Landing');
 	}
 
 	const logout = async () => {
 		dispatch(setToken(''));
+		dispatch(setNotifications({ data: [], totalUnread: 0 }));
 		await AsyncStorage.setItem('token', '');
 	};
 

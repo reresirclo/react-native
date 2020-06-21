@@ -3,7 +3,13 @@ export const setToken = token => ({
 	token,
 });
 
-export const setNavigation = navigation => ({
-	type: 'SET_NAVIGATION',
-	navigation,
+export const setProduct = product => ({
+	type: 'SET_PRODUCT',
+	product,
 });
+
+export const setNotifications = notifications => ({
+	type: 'SET_NOTIFICATIONS',
+	notifications,
+});
+
