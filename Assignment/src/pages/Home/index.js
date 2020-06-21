@@ -1,12 +1,24 @@
+import { gql } from 'apollo-boost';
 import React from 'react';
-import { View } from 'react-native';
-import CustomTouchOpacity from '../../component/CustomTouchOpacity';
+import { Text } from 'react-native';
 import Layout from '../../component/Layout';
+import { createStackNavigator } from '@react-navigation/stack';
 
-const Home = ({ navigation }) => (
-	<Layout>
-		<CustomTouchOpacity onPress={() => navigation.navigate('Profile')} title={'Go to Profile'} />
-	</Layout>
-);
+const CUSTOMER_LOGIN = gql`
+	mutation($username: String!, $password: String!) {
+		generateCustomerToken(email: $username, password: $password) {
+			token
+		}
+	}
+`;
 
-export default Home;
+const Index = ({ navigation }) => {
+
+	return (
+		<Layout>
+			<Text>Home</Text>
+		</Layout>
+	);
+};
+
+export default Index;

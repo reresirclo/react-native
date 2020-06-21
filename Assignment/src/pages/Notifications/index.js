@@ -1,20 +1,40 @@
+import { gql } from 'apollo-boost';
 import React from 'react';
-import { Button, View } from 'react-native';
-import CustomTouchOpacity from '../../component/CustomTouchOpacity';
+import { Text } from 'react-native';
 import Layout from '../../component/Layout';
+import { createStackNavigator } from '@react-navigation/stack';
 
-const Notifications = ({ navigation }) => (
-	<Layout>
-		<CustomTouchOpacity
-			style={{ marginBottom: 10 }}
-			title="Go to Settings"
-			onPress={() => navigation.navigate('Settings')}
-		/>
-		<CustomTouchOpacity
-			onPress={() => navigation.goBack()}
-			title={'Go Back'}
-		/>
-	</Layout>
-);
+const CUSTOMER_NOTIFICATION_LIST = gql`
+	query {
+		customerNotificationList {
+			items {
+			  content
+			  createdAt
+			  entityId
+			  subject
+			  unread
+			}
+			totalUnread
+		}
+	}
+`;
+
+const Content = () => {
+	return (
+		<Layout>
+			<Text>Notification</Text>
+		</Layout>
+	);
+}
+
+const Notifications = ({ navigation }) => {
+	const Stack = createStackNavigator();
+
+	return (
+		<Stack.Navigator>
+			<Stack.Screen name="Notifications" component={Content} />
+		</Stack.Navigator>
+	);
+};
 
 export default Notifications;

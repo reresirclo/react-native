@@ -1,27 +1,17 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import Home from './pages/Home';
-import Profile from './pages/Profile';
-import Notifications from './pages/Notifications';
-import Settings from './pages/Settings';
-
-const Stack = createStackNavigator();
-
-const MyStack = () => (
-	<Stack.Navigator>
-		<Stack.Screen name="Home" component={Home} />
-		<Stack.Screen name="Profile" component={Profile} />
-		<Stack.Screen name="Notifications" component={Notifications} />
-		<Stack.Screen name="Settings" component={Settings} />
-	</Stack.Navigator>
-);
+import { Provider } from 'react-redux';
+import Root from './pages/Root';
+import client from './services/graphql';
+import { ApolloProvider } from '@apollo/react-hooks';
+import store from './redux/store';
 
 const App = () => {
 	return (
-		<NavigationContainer>
-			<MyStack />
-		</NavigationContainer>
+		<ApolloProvider client={client}>
+			<Provider store={store}>
+				<Root />
+			</Provider>
+		</ApolloProvider>
 	);
 };
 
