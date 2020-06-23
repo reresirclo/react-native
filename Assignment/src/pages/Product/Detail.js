@@ -73,7 +73,16 @@ const Detail = props => {
 								alignItems: 'center',
 							}}>
 							<Text style={{ fontWeight: 'bold' }}>Rating</Text>
-						<Text>{data.review.rating_summary && `${(data.review.rating_summary * 5 / 100).toFixed(1)}/5 (${data.review.reviews_count})` || '0/5 (0)'}</Text>
+							<Text>
+								{(data.review.rating_summary &&
+									`${(
+										(data.review.rating_summary * 5) /
+										100
+									).toFixed(1)}/5 (${
+										data.review.reviews_count
+									})`) ||
+									'0/5 (0)'}
+							</Text>
 						</View>
 						<View
 							style={{
