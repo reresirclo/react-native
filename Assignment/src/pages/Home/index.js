@@ -1,43 +1,14 @@
-import { useQuery } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
 import React from 'react';
 import { Text } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import Layout from '../../component/Layout';
+import { useDispatch } from 'react-redux';
+import { Layout } from '../../component';
 import { setNotifications } from '../../redux/actions';
+import { customerNotificationList } from '../../services/graphql';
 
-const CUSTOMER_LOGIN = gql`
-	mutation($username: String!, $password: String!) {
-		generateCustomerToken(email: $username, password: $password) {
-			token
-		}
-	}
-`;
-
-const CUSTOMER_NOTIFICATION_LIST = gql`
-	query {
-		customerNotificationList {
-			items {
-				createdAt
-				content
-				entityId
-				subject
-				unread
-			}
-			totalUnread
-		}
-	}
-`;
-
-const Index = () => {
-	const token = useSelector(state => state.token);
+const Home = () => {
 	const dispatch = useDispatch();
-	useQuery(CUSTOMER_NOTIFICATION_LIST, {
-		context: {
-			headers: {
-				authorization: `Bearer ${token}`,
-			},
-		},
+
+	customerNotificationList({
 		onCompleted: data => {
 			const { items, totalUnread } = data.customerNotificationList;
 			dispatch(
@@ -48,6 +19,7 @@ const Index = () => {
 			);
 		},
 	});
+
 	return (
 		<Layout>
 			<Text>Home</Text>
@@ -55,4 +27,6 @@ const Index = () => {
 	);
 };
 
-export default Index;
+export {
+	Home
+}

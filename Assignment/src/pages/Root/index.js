@@ -2,36 +2,20 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { gql } from 'apollo-boost';
 import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+	createNotifications,
+	createProduct,
+	Home,
+	Landing,
+	Product,
+	Profile,
+	Splashscreen,
+} from '../../pages';
 import { setToken } from '../../redux/actions';
-import Home from '../Home';
-import Landing from '../Landing';
-import Notifications from '../Notifications';
-import DetailNotification from '../Notifications/Detail';
-import Product from '../Product';
-import CategoryList from '../Product/CategoryList';
-import ProductList from '../Product/ProductList';
-import Profile from '../Profile';
-import Splashscreen from '../Splashscreen';
-
-const CUSTOMER_NOTIFICATION_LIST = gql`
-	query {
-		customerNotificationList {
-			items {
-				createdAt
-				content
-				entityId
-				subject
-				unread
-			}
-			totalUnread
-		}
-	}
-`;
 
 const IconWithBadge = ({ name, badgeCount, color, size }) => {
 	return (
@@ -68,6 +52,7 @@ const IconWithBadge = ({ name, badgeCount, color, size }) => {
 const HomeTabs = () => {
 	const Tab = createBottomTabNavigator();
 	const { totalUnread } = useSelector(state => state.notifications);
+	const Notifications = createNotifications();
 
 	return (
 		<Tab.Navigator
@@ -111,7 +96,7 @@ const HomeTabs = () => {
 			}}>
 			<Tab.Screen name="Home" component={Home} />
 			<Tab.Screen name="Product" component={Product} />
-			<Tab.Screen name="Notifications" component={Notifications} />
+			<Tab.Screen name="Notifications" component={Notifications.Root} />
 			<Tab.Screen name="Profile" component={Profile} />
 		</Tab.Navigator>
 	);
@@ -123,6 +108,8 @@ const Root = () => {
 	const [fadeOut, setFadeOut] = useState(false);
 	const dispatch = useDispatch();
 	const RootStack = createStackNavigator();
+	const Notifications = createNotifications();
+	const Product = createProduct();
 
 	useEffect(() => {
 		const getToken = async () => {
@@ -150,12 +137,15 @@ const Root = () => {
 				/>
 				<RootStack.Screen
 					name="Category List"
-					component={CategoryList}
+					component={Product.Categories}
 				/>
-				<RootStack.Screen name="Product List" component={ProductList} />
+				<RootStack.Screen
+					name="Product List"
+					component={Product.List}
+				/>
 				<RootStack.Screen
 					name="Detail Notification"
-					component={DetailNotification}
+					component={Notifications.Detail}
 				/>
 			</RootStack.Navigator>
 		);

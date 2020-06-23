@@ -3,7 +3,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import Root from './pages/Root';
 import store from './redux/store';
-import client from './services/graphql';
+import client from './services/graphql/client';
 
 const App = () => {
 	return (

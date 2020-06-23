@@ -1,6 +1,4 @@
-import { useLazyQuery, useQuery } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	ActivityIndicator,
 	FlatList,
@@ -9,76 +7,39 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-import Layout from '../../component/Layout';
-
-const PRODUCT_LIST = gql`
-	query($id: String!, $currentPage: Int!) {
-		products(
-			filter: { category_id: { eq: $id } }
-			pageSize: 8
-			currentPage: $currentPage
-		) {
-			items {
-				url_key
-				id
-				sku
-				name
-				image {
-					label
-					url
-				}
-				special_price
-				price_range {
-					maximum_price {
-						regular_price {
-							currency
-							value
-						}
-						final_price {
-							value
-							currency
-						}
-					}
-				}
-			}
-			page_info {
-				current_page
-				page_size
-				total_pages
-			}
-			total_count
-		}
-	}
-`;
+import { Layout } from '../../component';
+import { productList } from '../../services/graphql';
 
 const Product = props => {
 	const { navigation } = props;
 	const { params } = props.route;
 	const [currentPage, setCurrentPage] = useState(1);
-	const [productList, setProductList] = useState([]);
-	let categoryId = '';
+	const [products, setProducts] = useState([]);
+	const [categoryId, setCategoryId] = useState('');
 
-	if (params) {
-		const { headerTitle, id } = params;
-
-		categoryId = id;
-
-		navigation.setOptions({
-			title: headerTitle,
-		});
-	}
-
-	const { data, loading, error } = useQuery(PRODUCT_LIST, {
-		variables: {
-			id: categoryId,
-			currentPage,
-		},
+	const [getProducts, { data, loading, error, refetch }] = productList({
 		onCompleted: data => {
-			setProductList(productList.concat(data.products.items));
+			setProducts(products.concat(data.products.items));
 		},
 	});
 
-	const [getMoreProduct] = useLazyQuery(PRODUCT_LIST);
+	useEffect(() => {
+		if (params) {
+			const { headerTitle, id } = params;
+			setCategoryId(id);
+
+			navigation.setOptions({
+				title: headerTitle,
+			});
+
+			getProducts({
+				variables: {
+					id,
+					currentPage,
+				},
+			});
+		}
+	}, [params, currentPage]);
 
 	if (loading && currentPage === 1) {
 		return (
@@ -89,9 +50,11 @@ const Product = props => {
 	}
 
 	const loadMore = () => {
+		const { total_pages } = data.products.page_info;
 		const loadPage = currentPage + 1;
-		if (data.products.page_info.total_pages >= loadPage && !loading) {
-			getMoreProduct({
+
+		if (total_pages >= loadPage && !loading) {
+			refetch({
 				variables: {
 					id: categoryId,
 					currentPage: loadPage,
@@ -103,7 +66,7 @@ const Product = props => {
 
 	return (
 		<Layout>
-			{productList.length == 0 ? (
+			{products.length == 0 ? (
 				<Text>No Product</Text>
 			) : (
 				<FlatList
@@ -116,7 +79,7 @@ const Product = props => {
 					contentContainerStyle={{
 						width: '100%',
 					}}
-					data={productList}
+					data={products}
 					ListFooterComponent={() => {
 						return (
 							(!loading &&

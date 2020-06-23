@@ -1,22 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { gql } from 'apollo-boost';
 import React from 'react';
 import List from './List';
-
-const CUSTOMER_NOTIFICATION_LIST = gql`
-	query {
-		customerNotificationList {
-			items {
-				content
-				createdAt
-				entityId
-				subject
-				unread
-			}
-			totalUnread
-		}
-	}
-`;
+import Detail from './Detail';
 
 const Notifications = () => {
 	const Stack = createStackNavigator();
@@ -28,4 +13,10 @@ const Notifications = () => {
 	);
 };
 
-export default Notifications;
+const createNotifications = () => ({
+	Root: Notifications,
+	List,
+	Detail,
+});
+
+export { Notifications, createNotifications };

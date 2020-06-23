@@ -1,21 +1,10 @@
-import { useMutation } from '@apollo/react-hooks';
 import AsyncStorage from '@react-native-community/async-storage';
-import { gql } from 'apollo-boost';
 import React, { createRef, useState } from 'react';
 import { Platform, Text, ToastAndroid, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import Layout from '../../component/Layout';
-import CustomTextInput from '../../component/TextInput';
-import CustomTouchOpacity from '../../component/TouchableOpacity';
+import { Layout, TextInput, TouchableOpacity } from '../../component';
 import { setToken } from '../../redux/actions';
-
-const CUSTOMER_LOGIN = gql`
-	mutation($username: String!, $password: String!) {
-		generateCustomerToken(email: $username, password: $password) {
-			token
-		}
-	}
-`;
+import { customerLogin } from '../../services/graphql';
 
 const Landing = () => {
 	const dispatch = useDispatch();
@@ -24,8 +13,7 @@ const Landing = () => {
 	const [txtInputEmail, setTxtInputEmail] = useState(createRef());
 	const [txtInputPassword, setTxtInputPassword] = useState(createRef());
 
-	const [customerLogin, { loading }] = useMutation(CUSTOMER_LOGIN, {
-		errorPolicy: 'none',
+	const [login, { loading }] = customerLogin({
 		onError: error => {
 			const msg = error.message;
 
@@ -45,7 +33,7 @@ const Landing = () => {
 	});
 
 	const doLogin = () => {
-		customerLogin({
+		login({
 			variables: {
 				username: email,
 				password: password,
@@ -59,7 +47,7 @@ const Landing = () => {
 				Assignment
 			</Text>
 			<View style={{ width: '100%', padding: 25 }}>
-				<CustomTextInput
+				<TextInput
 					autoCompleteType="email"
 					placeholder="Email"
 					value={email}
@@ -75,7 +63,7 @@ const Landing = () => {
 						txtInputPassword.focus();
 					}}
 				/>
-				<CustomTextInput
+				<TextInput
 					autoCompleteType="password"
 					value={password}
 					secureTextEntry
@@ -90,7 +78,7 @@ const Landing = () => {
 						setPassword(txt);
 					}}
 				/>
-				<CustomTouchOpacity
+				<TouchableOpacity
 					style={{ marginTop: 25 }}
 					onPress={doLogin}
 					title={'Login'}

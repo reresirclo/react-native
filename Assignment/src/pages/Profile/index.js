@@ -1,22 +1,10 @@
-import { useQuery } from '@apollo/react-hooks';
 import AsyncStorage from '@react-native-community/async-storage';
-import { gql } from 'apollo-boost';
 import React from 'react';
 import { ActivityIndicator, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import Layout from '../../component/Layout';
-import CustomTouchOpacity from '../../component/TouchableOpacity';
+import { Layout, TouchableOpacity } from '../../component';
 import { setNotifications, setToken } from '../../redux/actions';
-
-const CUSTOMER = gql`
-	query {
-		customer {
-			firstname
-			lastname
-			email
-		}
-	}
-`;
+import { customer } from '../../services/graphql';
 
 const Profile = props => {
 	const dispatch = useDispatch();
@@ -34,12 +22,7 @@ const Profile = props => {
 		await AsyncStorage.setItem('token', '');
 	};
 
-	const { loading, error, data } = useQuery(CUSTOMER, {
-		context: {
-			headers: {
-				authorization: `Bearer ${token}`,
-			},
-		},
+	const { loading, error, data } = customer({
 		onError: errors => {
 			logout();
 		},
@@ -60,7 +43,7 @@ const Profile = props => {
 					}}>
 					{email}
 				</Text>
-				<CustomTouchOpacity onPress={logout} title={'Logout'} />
+				<TouchableOpacity onPress={logout} title={'Logout'} />
 			</>
 		);
 	}

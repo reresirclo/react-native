@@ -1,29 +1,12 @@
-import { useMutation } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
 import React, { useEffect } from 'react';
 import { ActivityIndicator, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import Layout from '../../component/Layout';
+import { Layout } from '../../component';
 import { setNotifications } from '../../redux/actions';
-
-const READ_NOTIFICATION = gql`
-	mutation($id: Int!) {
-		readNotification(entityId: $id) {
-			items {
-				createdAt
-				content
-				entityId
-				subject
-				unread
-			}
-			totalUnread
-		}
-	}
-`;
+import { readNotification } from '../../services/graphql';
 
 const Detail = props => {
 	const dispatch = useDispatch();
-	const token = useSelector(state => state.token);
 	const notifications = useSelector(state => state.notifications);
 
 	const { params } = props.route;
@@ -38,34 +21,26 @@ const Detail = props => {
 
 	const { id, content, subject, level, unread, createdAt } = params.data;
 
-	const [updateNotification, { data, error, loading }] = useMutation(
-		READ_NOTIFICATION,
-		{
-			context: {
-				headers: {
-					authorization: `Bearer ${token}`,
-				},
-			},
-			onCompleted: data => {
-				const { items, totalUnread } = data.readNotification;
+	const [updateNotification, { data, error, loading }] = readNotification({
+		onCompleted: data => {
+			const { items, totalUnread } = data.readNotification;
 
-				if (unread) {
-					notifications.totalUnread--;
-					const [notif] = items;
-					const index = notifications.data.findIndex(
-						item => item.entityId === notif.entityId,
-					);
-					notifications.data[index] = notif;
-					dispatch(
-						setNotifications({
-							data: notifications.data,
-							totalUnread: notifications.totalUnread,
-						}),
-					);
-				}
-			},
+			if (unread) {
+				notifications.totalUnread--;
+				const [notif] = items;
+				const index = notifications.data.findIndex(
+					item => item.entityId === notif.entityId,
+				);
+				notifications.data[index] = notif;
+				dispatch(
+					setNotifications({
+						data: notifications.data,
+						totalUnread: notifications.totalUnread,
+					}),
+				);
+			}
 		},
-	);
+	});
 
 	useEffect(() => {
 		updateNotification({

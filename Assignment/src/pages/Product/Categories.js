@@ -1,6 +1,4 @@
-import { useQuery } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	ActivityIndicator,
 	FlatList,
@@ -9,35 +7,8 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-import Layout from '../../component/Layout';
-
-const CATEGORY_LIST = gql`
-	query {
-		categoryList(filters: { name: { match: "default" } }) {
-			children {
-				id
-				level
-				url_key
-				name
-				is_anchor
-				children {
-					id
-					level
-					url_key
-					name
-					is_anchor
-					children {
-						id
-						level
-						url_key
-						name
-						is_anchor
-					}
-				}
-			}
-		}
-	}
-`;
+import { Layout } from '../../component';
+import { categoryList } from '../../services/graphql';
 
 const styles = StyleSheet.create({
 	item: {
@@ -51,13 +22,26 @@ const styles = StyleSheet.create({
 	},
 });
 
-const CategoryList = props => {
+const Categories = props => {
 	const { navigation } = props;
 	const { params } = props.route;
+	const [categories, setCategories] = useState([]);
 
-	let categoryList = [];
+	const processCategories = obj => {
+		let [root] = obj.categoryList;
+		return root.children.filter(item => {
+			return item.children.length > 0 && item.level === 2;
+		});
+	};
 
-	const Item = ({ id, title, children, level, urlKey }) => {
+	const [getCategories, { data, loading }] = categoryList({
+		onCompleted: data => {
+			const categories = processCategories(data);
+			setCategories(categories);
+		},
+	});
+
+	const Item = ({ id, title, children, level }) => {
 		return (
 			<View style={{ borderBottomWidth: 1 }}>
 				<TouchableOpacity
@@ -91,30 +75,28 @@ const CategoryList = props => {
 		);
 	};
 
-	if (params) {
-		const { children, headerTitle } = params;
-		categoryList = children;
+	useEffect(() => {
+		if (params) {
+			const { children, headerTitle } = params;
+			setCategories(children);
 
-		navigation.setOptions({
-			title: headerTitle,
-		});
-	} else {
-		const { data, loading, error } = useQuery(CATEGORY_LIST);
-
-		if (loading) {
-			return (
-				<Layout>
-					<ActivityIndicator size="large" color="red" />
-				</Layout>
-			);
-		}
-
-		if (data) {
-			let [root] = data.categoryList;
-			categoryList = root.children.filter(item => {
-				return item.children.length > 0 && item.level === 2;
+			navigation.setOptions({
+				title: headerTitle,
 			});
+		} else if (!data) {
+			getCategories();
+		} else if (data) {
+			const categories = processCategories(data);
+			setCategories(categories);
 		}
+	}, [params, data]);
+
+	if (loading) {
+		return (
+			<Layout>
+				<ActivityIndicator size="large" color="red" />
+			</Layout>
+		);
 	}
 
 	return (
@@ -122,14 +104,13 @@ const CategoryList = props => {
 			<FlatList
 				scrollEnabled
 				style={{ width: '100%' }}
-				data={categoryList}
+				data={categories}
 				renderItem={({ item }) => (
 					<Item
 						id={item.id}
 						title={item.name}
 						children={item.children}
 						level={item.level}
-						urlKey={item.url_key}
 					/>
 				)}
 				keyExtractor={item => String(item.id)}
@@ -138,4 +119,4 @@ const CategoryList = props => {
 	);
 };
 
-export default CategoryList;
+export default Categories;
