@@ -1,27 +1,19 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+	ActivityIndicator,
 	SafeAreaView,
+	ScrollView,
 	Text,
 	View,
-	ScrollView,
-	Image,
-	ActivityIndicator,
-	Animated,
 } from 'react-native';
-import { TouchableOpacity, Layout } from '../../component';
-import { product } from '../../services/graphql';
 import HTMLView from 'react-native-htmlview';
+import { Carousel, Layout, TouchableOpacity, Card } from '../../component';
+import { product } from '../../services/graphql';
 
 const Detail = props => {
 	const { navigation } = props;
 	const { params } = props.route;
-	const [urlKey, setUrlKey] = useState('');
 	const [data, setData] = useState({});
-	const leftAnim = useRef(new Animated.Value(0)).current;
-	let arrE = [];
-	const [translate, setTranslate] = useState(0);
-	const [globalIndex, setGlobalIndex] = useState(0);
-	const [imgContainer, setImgContainer] = useState({});
 	const [getProduct, { loading }] = product({
 		onCompleted: data => {
 			const [dataProduct] = data.products.items;
@@ -32,7 +24,6 @@ const Detail = props => {
 	useEffect(() => {
 		if (params) {
 			const { urlKey } = params;
-			setUrlKey(urlKey);
 			getProduct({
 				variables: {
 					urlKey,
@@ -52,136 +43,8 @@ const Detail = props => {
 	return (
 		<SafeAreaView>
 			<ScrollView style={{ padding: 10, height: '92%' }}>
-				<View
-					style={{
-						backgroundColor: 'white',
-						shadowColor: '#000',
-						shadowOffset: {
-							width: 0,
-							height: 1,
-						},
-						shadowOpacity: 0.22,
-						shadowRadius: 2.22,
-
-						elevation: 3,
-						borderRadius: 5,
-						marginBottom: 15,
-					}}>
-					<View
-						onStartShouldSetResponder={() => {
-							arrE = [];
-						}}
-						onMoveShouldSetResponder={e => {
-							arrE.push(e.nativeEvent.locationX);
-							const firstX = arrE[0];
-							const lastX = arrE[arrE.length - 1];
-							const calcX = lastX - firstX;
-
-							if (
-								calcX < 0 &&
-								globalIndex < data.media_gallery.length - 1 &&
-								Math.abs(calcX) > 45
-							) {
-								setGlobalIndex(globalIndex + 1);
-								const translateCalc =
-									translate - imgContainer.width;
-								setTranslate(translateCalc);
-								Animated.timing(leftAnim, {
-									toValue: translateCalc,
-									duration: 0,
-									useNativeDriver: true,
-								}).start();
-							} else if (
-								calcX > 0 &&
-								globalIndex > 0 &&
-								Math.abs(calcX) > 45
-							) {
-								setGlobalIndex(globalIndex - 1);
-								const translateCalc =
-									translate + imgContainer.width;
-								setTranslate(translateCalc);
-								Animated.timing(leftAnim, {
-									toValue: translateCalc,
-									duration: 0,
-									useNativeDriver: true,
-								}).start();
-							}
-						}}
-						style={{
-							borderTopStartRadius: 5,
-							borderTopEndRadius: 5,
-							backgroundColor: 'white',
-							width: '100%',
-							paddingTop: '100%',
-						}}>
-						<View
-							onLayout={e => {
-								setImgContainer(e.nativeEvent.layout);
-							}}
-							style={{
-								top: 0,
-								left: 0,
-								bottom: 0,
-								right: 0,
-								position: 'absolute',
-								display: 'flex',
-								flexDirection: 'row',
-							}}>
-							<View
-								style={{
-									display: 'flex',
-									flexDirection: 'row',
-									position: 'absolute',
-									bottom: 15,
-									width: '100%',
-									alignItems: 'center',
-									justifyContent: 'center',
-									zIndex: 1,
-								}}>
-								{data.media_gallery.map((obj, index) => {
-									return (
-										<View
-											key={`point-${index}`}
-											style={{
-												borderRadius: 2,
-												width: 8,
-												height: 8,
-												backgroundColor:
-													index === globalIndex
-														? 'red'
-														: 'gray',
-												marginRight: 4,
-											}}
-										/>
-									);
-								})}
-							</View>
-							{data.media_gallery.map((item, index) => {
-								return (
-									<Animated.Image
-										key={index}
-										style={[
-											{
-												width: '100%',
-												height: '100%',
-												resizeMode: 'contain',
-											},
-											{
-												transform: [
-													{
-														translateX: leftAnim,
-													},
-												],
-											},
-										]}
-										source={{
-											uri: item.url,
-										}}
-									/>
-								);
-							})}
-						</View>
-					</View>
+				<Card>
+					<Carousel data={data.media_gallery} width="100%" />
 					<View
 						style={{
 							padding: 10,
@@ -210,7 +73,7 @@ const Detail = props => {
 								alignItems: 'center',
 							}}>
 							<Text style={{ fontWeight: 'bold' }}>Rating</Text>
-							<Text>-</Text>
+						<Text>{data.review.rating_summary && `${(data.review.rating_summary * 5 / 100).toFixed(1)}/5 (${data.review.reviews_count})` || '0/5 (0)'}</Text>
 						</View>
 						<View
 							style={{
@@ -231,23 +94,8 @@ const Detail = props => {
 							<Text>{data.sku}</Text>
 						</View>
 					</View>
-				</View>
-				<View
-					style={{
-						borderRadius: 5,
-						padding: 10,
-						backgroundColor: 'white',
-						shadowColor: '#000',
-						shadowOffset: {
-							width: 0,
-							height: 1,
-						},
-						shadowOpacity: 0.22,
-						shadowRadius: 2.22,
-
-						elevation: 3,
-						marginBottom: 15,
-					}}>
+				</Card>
+				<Card>
 					<Text
 						style={{
 							color: 'red',
@@ -257,23 +105,8 @@ const Detail = props => {
 						Details
 					</Text>
 					<HTMLView value={data.description.html || '-'} />
-				</View>
-				<View
-					style={{
-						borderRadius: 5,
-						padding: 10,
-						backgroundColor: 'white',
-						shadowColor: '#000',
-						shadowOffset: {
-							width: 0,
-							height: 1,
-						},
-						shadowOpacity: 0.22,
-						shadowRadius: 2.22,
-
-						elevation: 3,
-						marginBottom: 25,
-					}}>
+				</Card>
+				<Card>
 					<Text
 						style={{
 							color: 'red',
@@ -290,7 +123,7 @@ const Detail = props => {
 								}`}</Text>
 							);
 						})) || <Text>-</Text>}
-				</View>
+				</Card>
 			</ScrollView>
 			<View style={{ padding: 10, backgroundColor: 'white' }}>
 				<TouchableOpacity

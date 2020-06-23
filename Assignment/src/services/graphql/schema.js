@@ -72,6 +72,10 @@ export const PRODUCT = gql`
 			items {
 				sku
 				name
+				review {
+					rating_summary
+					reviews_count
+				}
 				media_gallery {
 					label
 					url
