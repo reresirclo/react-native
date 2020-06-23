@@ -68,20 +68,19 @@ const Detail = props => {
 						marginBottom: 15,
 					}}>
 					<View
-						onTouchStart={e => {
+						onStartShouldSetResponder={() => {
 							arrE = [];
 						}}
-						onTouchMove={e => {
+						onMoveShouldSetResponder={e => {
 							arrE.push(e.nativeEvent.locationX);
-						}}
-						onTouchEndCapture={e => {
-							const firstX = arrE.shift();
-							const lastX = arrE.pop();
+							const firstX = arrE[0];
+							const lastX = arrE[arrE.length - 1];
 							const calcX = lastX - firstX;
 
 							if (
 								calcX < 0 &&
-								globalIndex < data.media_gallery.length - 1
+								globalIndex < data.media_gallery.length - 1 &&
+								Math.abs(calcX) > 45
 							) {
 								setGlobalIndex(globalIndex + 1);
 								const translateCalc =
@@ -92,7 +91,11 @@ const Detail = props => {
 									duration: 0,
 									useNativeDriver: true,
 								}).start();
-							} else if (calcX > 0 && globalIndex > 0) {
+							} else if (
+								calcX > 0 &&
+								globalIndex > 0 &&
+								Math.abs(calcX) > 45
+							) {
 								setGlobalIndex(globalIndex - 1);
 								const translateCalc =
 									translate + imgContainer.width;
@@ -253,7 +256,7 @@ const Detail = props => {
 						}}>
 						Details
 					</Text>
-					<HTMLView value={data.description.html} />
+					<HTMLView value={data.description.html || '-'} />
 				</View>
 				<View
 					style={{
@@ -279,17 +282,23 @@ const Detail = props => {
 						}}>
 						More Information
 					</Text>
-					{data.more_info.map((item, index) => {
-						return (
-							<Text key={index}>{`${item.label}: ${
-								item.value
-							}`}</Text>
-						);
-					})}
+					{(data.more_info &&
+						data.more_info.map((item, index) => {
+							return (
+								<Text key={index}>{`${item.label}: ${
+									item.value
+								}`}</Text>
+							);
+						})) || <Text>-</Text>}
 				</View>
 			</ScrollView>
 			<View style={{ padding: 10, backgroundColor: 'white' }}>
-				<TouchableOpacity title="Back To Home" />
+				<TouchableOpacity
+					title="Back To Home"
+					onPress={() => {
+						navigation.navigate('Home');
+					}}
+				/>
 			</View>
 		</SafeAreaView>
 	);

@@ -81,7 +81,6 @@ export const PRODUCT = gql`
 					value
 				}
 				stock_status
-				qty_available
 				description {
 					html
 				}
