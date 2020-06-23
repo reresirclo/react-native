@@ -109,6 +109,11 @@ const Product = props => {
 							item.price_range.maximum_price.final_price;
 						return (
 							<TouchableOpacity
+								onPress={() =>
+									navigation.push('Detail Product', {
+										urlKey: item.url_key
+									})
+								}
 								style={{
 									backgroundColor: 'white',
 									width: '47%',
@@ -126,7 +131,7 @@ const Product = props => {
 									elevation: 2,
 								}}>
 								<Image
-									style={{ width: '100%', height: 200 }}
+									style={{ width: '100%', height: 200, resizeMode:'contain' }}
 									source={{
 										uri:
 											item.image.url === ''

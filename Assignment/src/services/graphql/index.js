@@ -5,8 +5,9 @@ import {
 	CUSTOMER_LOGIN,
 	CATEGORY_LIST,
 	PRODUCT_LIST,
-    CUSTOMER,
-    READ_NOTIFICATION,
+	CUSTOMER,
+	READ_NOTIFICATION,
+	PRODUCT,
 } from './schema';
 
 const context = () => {
@@ -49,5 +50,10 @@ export const categoryList = options =>
 
 export const productList = options =>
 	useLazyQuery(PRODUCT_LIST, {
+		...options,
+	});
+
+export const product = options =>
+	useLazyQuery(PRODUCT, {
 		...options,
 	});

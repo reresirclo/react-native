@@ -2,6 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import Categories from './Categories';
 import List from './List';
+import Detail from './Detail';
 
 const Product = () => {
 	const Stack = createStackNavigator();
@@ -18,6 +19,7 @@ const createProduct = () => {
 		Product,
 		Categories,
 		List,
+		Detail,
 	};
 };
 

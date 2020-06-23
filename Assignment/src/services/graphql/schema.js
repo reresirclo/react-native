@@ -66,6 +66,43 @@ export const CATEGORY_LIST = gql`
 	}
 `;
 
+export const PRODUCT = gql`
+	query($urlKey: String!) {
+		products(filter: { url_key: { eq: $urlKey } }) {
+			items {
+				sku
+				name
+				media_gallery {
+					label
+					url
+				}
+				more_info {
+					label
+					value
+				}
+				stock_status
+				qty_available
+				description {
+					html
+				}
+				special_price
+				price_range {
+					maximum_price {
+						regular_price {
+							currency
+							value
+						}
+						final_price {
+							value
+							currency
+						}
+					}
+				}
+			}
+		}
+	}
+`;
+
 export const PRODUCT_LIST = gql`
 	query($id: String!, $currentPage: Int!) {
 		products(

@@ -57,6 +57,10 @@ const Root = () => {
 					name="Detail Notification"
 					component={Notifications.Detail}
 				/>
+				<RootStack.Screen
+					name="Detail Product"
+					component={Product.Detail}
+				/>
 			</RootStack.Navigator>
 		);
 
