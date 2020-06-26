@@ -1,10 +1,9 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import { Layout, TouchableOpacity } from '@src/component';
+import { customer } from '@src/services/graphql';
+import { logout } from '@src/services/helper';
 import React from 'react';
 import { ActivityIndicator, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Layout, TouchableOpacity } from '../../component';
-import { setNotifications, setToken } from '../../redux/actions';
-import { customer } from '../../services/graphql';
 
 const Profile = props => {
 	const dispatch = useDispatch();
@@ -16,15 +15,9 @@ const Profile = props => {
 		navigation.navigate('Landing');
 	}
 
-	const logout = async () => {
-		dispatch(setToken(''));
-		dispatch(setNotifications({ data: [], totalUnread: 0 }));
-		await AsyncStorage.setItem('token', '');
-	};
-
-	const { loading, error, data } = customer({
+	const { data } = customer({
 		onError: errors => {
-			logout();
+			logout(dispatch);
 		},
 	});
 
@@ -43,7 +36,12 @@ const Profile = props => {
 					}}>
 					{email}
 				</Text>
-				<TouchableOpacity onPress={logout} title={'Logout'} />
+				<TouchableOpacity
+					onPress={() => {
+						logout(dispatch);
+					}}
+					title={'Logout'}
+				/>
 			</>
 		);
 	}

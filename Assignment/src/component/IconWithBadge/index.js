@@ -26,7 +26,7 @@ const IconWithBadge = ({ name, badgeCount, color, size }) => {
 							fontSize: 10,
 							fontWeight: 'bold',
 						}}>
-						{(badgeCount < 1000 && badgeCount) || '99+'}
+						{(badgeCount < 100 && badgeCount) || '99+'}
 					</Text>
 				</View>
 			)}

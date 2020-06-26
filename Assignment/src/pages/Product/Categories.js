@@ -1,3 +1,5 @@
+import { Layout } from '@src/component';
+import { categoryList } from '@src/services/graphql';
 import React, { useEffect, useState } from 'react';
 import {
 	ActivityIndicator,
@@ -7,8 +9,6 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-import { Layout } from '../../component';
-import { categoryList } from '../../services/graphql';
 
 const styles = StyleSheet.create({
 	item: {

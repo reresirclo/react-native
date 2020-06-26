@@ -1,9 +1,9 @@
 import { ApolloProvider } from '@apollo/react-hooks';
 import React from 'react';
 import { Provider } from 'react-redux';
-import Root from './pages/Root';
-import store from './redux/store';
-import client from './services/graphql/client';
+import Root from '@src/navigation';
+import store from '@src/redux/store';
+import client from '@src/services/graphql/client';
 
 const App = () => {
 	return (

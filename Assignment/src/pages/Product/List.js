@@ -1,14 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import {
-	ActivityIndicator,
-	FlatList,
-	Image,
-	Text,
-	TouchableOpacity,
-	View,
-} from 'react-native';
-import { Layout } from '../../component';
-import { productList } from '../../services/graphql';
+import { ItemProduct, Layout } from '@src/component';
+import { productList } from '@src/services/graphql';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, Text } from 'react-native';
 
 const Product = props => {
 	const { navigation } = props;
@@ -105,51 +98,18 @@ const Product = props => {
 						justifyContent: 'center',
 					}}
 					renderItem={({ item }) => {
-						const finalPrice =
-							item.price_range.maximum_price.final_price;
 						return (
-							<TouchableOpacity
+							<ItemProduct
 								onPress={() =>
 									navigation.push('Detail Product', {
-										urlKey: item.url_key
+										urlKey: item.url_key,
 									})
 								}
 								style={{
-									backgroundColor: 'white',
 									width: '47%',
-									alignItems: 'center',
-									borderRadius: 5,
-									margin: 5,
-									padding: 5,
-									shadowColor: '#000',
-									shadowOffset: {
-										width: 0,
-										height: 1,
-									},
-									shadowOpacity: 0.2,
-									shadowRadius: 1.41,
-									elevation: 2,
-								}}>
-								<Image
-									style={{ width: '100%', height: 200, resizeMode:'contain' }}
-									source={{
-										uri:
-											item.image.url === ''
-												? null
-												: item.image.url,
-									}}
-								/>
-								<View style={{ padding: 10, width: '100%' }}>
-									<Text style={{ textAlign: 'left' }}>
-										{item.name}
-									</Text>
-									<Text style={{ textAlign: 'left' }}>
-										{`${finalPrice.currency} ${
-											finalPrice.value
-										}`}
-									</Text>
-								</View>
-							</TouchableOpacity>
+								}}
+								data={item}
+							/>
 						);
 					}}
 					keyExtractor={item => String(item.id)}

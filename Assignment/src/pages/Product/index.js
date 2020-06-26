@@ -1,8 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import Categories from './Categories';
-import List from './List';
 import Detail from './Detail';
+import List from './List';
 
 const Product = () => {
 	const Stack = createStackNavigator();

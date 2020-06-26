@@ -1,22 +1,17 @@
 import { Home } from './Home';
 import Landing from './Landing';
-import {
-	Notifications,
-	createNotifications
-} from './Notifications';
-import { Product, createProduct } from './Product';
+import { createNotifications, Notifications } from './Notifications';
+import { createProduct, Product } from './Product';
 import Profile from './Profile';
-import Root from './Root';
 import Splashscreen from './Splashscreen';
 
 export {
-    Home,
-    Landing,
-    Notifications,
+	Home,
+	Landing,
+	Notifications,
 	createNotifications,
-    Product,
-    createProduct,
+	Product,
+	createProduct,
 	Profile,
-	Root,
 	Splashscreen,
 };

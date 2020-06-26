@@ -2,8 +2,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useSelector } from 'react-redux';
-import { createNotifications, Home, Product, Profile } from '../../pages';
-import { IconWithBadge } from '../../component';
+import { createNotifications, Home, Product, Profile } from '../pages';
+import { IconWithBadge } from '../component';
 
 const Tabs = () => {
 	const Tab = createBottomTabNavigator();
@@ -12,8 +12,9 @@ const Tabs = () => {
 
 	return (
 		<Tab.Navigator
+			backBehavior='initialRoute'
 			screenOptions={({ route }) => ({
-				tabBarIcon: ({ focused, color, size }) => {
+				tabBarIcon: ({ color, size }) => {
 					let iconName;
 
 					switch (route.name) {

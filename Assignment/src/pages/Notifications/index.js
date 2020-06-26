@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import List from './List';
 import Detail from './Detail';
+import List from './List';
 
 const Notifications = () => {
 	const Stack = createStackNavigator();

@@ -114,6 +114,9 @@ export const PRODUCT_LIST = gql`
 			currentPage: $currentPage
 		) {
 			items {
+				categories {
+					url_key
+				}
 				url_key
 				id
 				sku
@@ -152,6 +155,16 @@ export const CUSTOMER = gql`
 			firstname
 			lastname
 			email
+		}
+	}
+`;
+
+export const HOMEPAGE_SLIDER = gql`
+	query {
+		getHomepageSlider {
+			images {
+				image_url
+			}
 		}
 	}
 `;

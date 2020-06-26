@@ -8,6 +8,7 @@ import {
 	CUSTOMER,
 	READ_NOTIFICATION,
 	PRODUCT,
+	HOMEPAGE_SLIDER,
 } from './schema';
 
 const context = () => {
@@ -20,11 +21,20 @@ const context = () => {
 	};
 };
 
-export const customerNotificationList = options =>
-	useQuery(CUSTOMER_NOTIFICATION_LIST, {
-		context: context(),
-		...options,
-	});
+export const customerNotificationList = (options, lazyQuery = false) => {
+	if (lazyQuery) {
+		return useLazyQuery(CUSTOMER_NOTIFICATION_LIST, {
+			notifyOnNetworkStatusChange: true,
+			context: context(),
+			...options,
+		});
+	} else {
+		return useQuery(CUSTOMER_NOTIFICATION_LIST, {
+			context: context(),
+			...options,
+		});
+	}
+};
 
 export const customer = options =>
 	useQuery(CUSTOMER, {
@@ -55,5 +65,10 @@ export const productList = options =>
 
 export const product = options =>
 	useLazyQuery(PRODUCT, {
+		...options,
+	});
+
+export const getHompeageSlider = options =>
+	useQuery(HOMEPAGE_SLIDER, {
 		...options,
 	});

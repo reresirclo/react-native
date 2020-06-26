@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { ActivityIndicator, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Layout } from '../../component';
-import { setNotifications } from '../../redux/actions';
-import { readNotification } from '../../services/graphql';
+import { Layout } from '@src/component';
+import { setNotifications } from '@src/redux/actions';
+import { readNotification } from '@src/services/graphql';
 
 const Detail = props => {
 	const dispatch = useDispatch();
@@ -21,10 +21,9 @@ const Detail = props => {
 
 	const { id, content, subject, level, unread, createdAt } = params.data;
 
-	const [updateNotification, { data, error, loading }] = readNotification({
+	const [updateNotification] = readNotification({
 		onCompleted: data => {
-			const { items, totalUnread } = data.readNotification;
-
+			const { items } = data.readNotification;
 			if (unread) {
 				notifications.totalUnread--;
 				const [notif] = items;

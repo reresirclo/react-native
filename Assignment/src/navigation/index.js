@@ -7,9 +7,9 @@ import {
 	createNotifications,
 	createProduct,
 	Landing,
-	Splashscreen
-} from '../../pages';
-import { setToken } from '../../redux/actions';
+	Splashscreen,
+} from '@src/pages';
+import { setToken } from '@src/redux/actions';
 import Tabs from './Tabs';
 
 const Root = () => {

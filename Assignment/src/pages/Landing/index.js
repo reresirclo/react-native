@@ -2,9 +2,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import React, { createRef, useState } from 'react';
 import { Platform, Text, ToastAndroid, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { Layout, TextInput, TouchableOpacity } from '../../component';
-import { setToken } from '../../redux/actions';
-import { customerLogin } from '../../services/graphql';
+import { Layout, TextInput, TouchableOpacity } from '@src/component';
+import { setToken } from '@src/redux/actions';
+import { customerLogin } from '@src/services/graphql';
 
 const Landing = () => {
 	const dispatch = useDispatch();
