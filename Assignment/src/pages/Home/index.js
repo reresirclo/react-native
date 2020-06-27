@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { ItemProduct, Swiper } from '@src/component';
 import { setNotifications } from '@src/redux/actions';
 import {
@@ -17,6 +17,8 @@ import {
     Text,
     TouchableWithoutFeedback,
     View,
+    BackHandler,
+    ToastAndroid,
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
@@ -29,28 +31,29 @@ const Home = () => {
     const [dirumahaja, setDirumahaja] = useState([]);
     const [ramadhanSell, setRamadhanSell] = useState([]);
     const [backCounter, setBackCounter] = useState(0);
+    const [delay, setDelay] = useState(null);
     const windowWidth = Dimensions.get('window').width;
     const itemWidth = (windowWidth * 30) / 100;
 
     const [getBestSellers, { loading: bestSellerLoading }] = productList({
-        onCompleted: (data) => {
+        onCompleted: data => {
             setBestSellers(data.products.items);
         },
     });
     const [getDirumahaja, { loading: dirumahajaLoading }] = productList({
-        onCompleted: (data) => {
+        onCompleted: data => {
             setDirumahaja(data.products.items);
         },
     });
     const [getRamadhanSell, { loading: ramadhanSellLoading }] = productList({
-        onCompleted: (data) => {
+        onCompleted: data => {
             setRamadhanSell(data.products.items);
         },
     });
 
     getHompeageSlider({
-        onCompleted: (data) => {
-            const result = data.getHomepageSlider.images.map((item) => {
+        onCompleted: data => {
+            const result = data.getHomepageSlider.images.map(item => {
                 return { url: item.image_url };
             });
 
@@ -59,7 +62,7 @@ const Home = () => {
     });
 
     customerNotificationList({
-        onCompleted: (data) => {
+        onCompleted: data => {
             const { items, totalUnread } = data.customerNotificationList;
             dispatch(
                 setNotifications({
@@ -72,6 +75,40 @@ const Home = () => {
             logout(dispatch);
         },
     });
+
+    useFocusEffect(
+        React.useCallback(() => {
+            const onBackPress = () => {
+                const msg = 'Press back again to exit apps';
+
+                if (backCounter === 1) {
+                    BackHandler.exitApp();
+                } else {
+                    ToastAndroid.show(msg, ToastAndroid.SHORT);
+
+                    setBackCounter(1);
+
+                    setDelay(
+                        setTimeout(() => {
+                            setBackCounter(0);
+                        }, 2000),
+                    );
+
+                    return true;
+                }
+            };
+
+            BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+            return () => {
+                clearTimeout(delay);
+                BackHandler.removeEventListener(
+                    'hardwareBackPress',
+                    onBackPress,
+                );
+            };
+        }, [backCounter]),
+    );
 
     useEffect(() => {
         getBestSellers({
@@ -169,7 +206,7 @@ const Home = () => {
                                             style={{ width: itemWidth }}
                                         />
                                     )}
-                                    keyExtractor={(item) => String(item.id)}
+                                    keyExtractor={item => String(item.id)}
                                 />
                             </>
                         )}
@@ -215,7 +252,7 @@ const Home = () => {
                                             style={{ width: itemWidth }}
                                         />
                                     )}
-                                    keyExtractor={(item) => String(item.id)}
+                                    keyExtractor={item => String(item.id)}
                                 />
                                 <Text
                                     style={{
@@ -308,7 +345,7 @@ const Home = () => {
                                             }}
                                         />
                                     )}
-                                    keyExtractor={(item) => String(item.id)}
+                                    keyExtractor={item => String(item.id)}
                                 />
                             </>
                         )}
