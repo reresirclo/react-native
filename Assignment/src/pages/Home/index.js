@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { useNavigation } from '@react-navigation/native';
 import { ItemProduct, Swiper } from '@src/component';
 import { setNotifications } from '@src/redux/actions';
@@ -9,12 +10,11 @@ import {
 import { logout } from '@src/services/helper';
 import React, { useEffect, useState } from 'react';
 import {
-    BackHandler,
+    ActivityIndicator,
     Dimensions,
     SafeAreaView,
     ScrollView,
     Text,
-    ToastAndroid,
     TouchableWithoutFeedback,
     View,
 } from 'react-native';
@@ -32,17 +32,17 @@ const Home = () => {
     const windowWidth = Dimensions.get('window').width;
     const itemWidth = (windowWidth * 25) / 100;
 
-    const [getBestSellers] = productList({
+    const [getBestSellers, { loading: bestSellerLoading }] = productList({
         onCompleted: (data) => {
             setBestSellers(data.products.items);
         },
     });
-    const [getDirumahaja] = productList({
+    const [getDirumahaja, { loading: dirumahajaLoading }] = productList({
         onCompleted: (data) => {
             setDirumahaja(data.products.items);
         },
     });
-    const [getRamadhanSell] = productList({
+    const [getRamadhanSell, { loading: ramadhanSellLoading }] = productList({
         onCompleted: (data) => {
             setRamadhanSell(data.products.items);
         },
@@ -94,36 +94,7 @@ const Home = () => {
                 id: 49,
             },
         });
-    }, []);
-
-    const backButtonHandler = () => {
-        setBackCounter(backCounter + 1);
-
-        if (backCounter === 0) {
-            const msg = 'Press back again to exit app';
-            if (Platform.OS === 'android') {
-                ToastAndroid.show(msg, ToastAndroid.SHORT);
-            } else {
-                AlertIOS.alert(msg);
-            }
-        } else {
-            BackHandler.exitApp();
-        }
-
-        setTimeout(function () {
-            setBackCounter(0);
-        }, 2000);
-
-        return true;
-    };
-
-    // useEffect(() => {
-    // 	BackHandler.addEventListener('hardwareBackPress', backButtonHandler);
-
-    // 	return () => {
-    // 		BackHandler.removeEventListener('hardwareBackPress', () => false)
-    // 	};
-    // }, [backButtonHandler]);
+    }, [getBestSellers, getDirumahaja, getRamadhanSell]);
 
     return (
         <SafeAreaView>
@@ -140,176 +111,207 @@ const Home = () => {
                     <View
                         style={{
                             padding: 10,
+                            minHeight: 200,
+                            justifyContent: 'center',
                         }}>
-                        <View
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                            }}>
-                            <Text
-                                style={{
-                                    fontWeight: 'bold',
-                                    fontSize: 20,
-                                    marginBottom: 5,
-                                }}>
-                                Best Sellers
-                            </Text>
-                            <TouchableWithoutFeedback
-                                onPress={() => {
-                                    navigation.push('Product List', {
-                                        headerTitle: 'Best Sellers',
-                                        id: 45,
-                                    });
-                                }}>
-                                <Text>Lihat Lebih</Text>
-                            </TouchableWithoutFeedback>
-                        </View>
-                        <FlatList
-                            horizontal={true}
-                            nestedScrollEnabled={true}
-                            data={bestSellers}
-                            showsHorizontalScrollIndicator={false}
-                            style={{
-                                width: '100%',
-                            }}
-                            contentContainerStyle={{
-                                display: 'flex',
-                                flexDirection: 'row',
-                            }}
-                            renderItem={({ item }) => (
-                                <ItemProduct
-                                    onPress={() =>
-                                        navigation.push('Detail Product', {
-                                            urlKey: item.url_key,
-                                        })
-                                    }
-                                    data={item}
-                                    style={{ width: itemWidth }}
+                        {bestSellerLoading ? (
+                            <ActivityIndicator color="red" size="large" />
+                        ) : (
+                            <>
+                                <View
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                    }}>
+                                    <Text
+                                        style={{
+                                            fontWeight: 'bold',
+                                            fontSize: 20,
+                                            marginBottom: 5,
+                                        }}>
+                                        Best Sellers
+                                    </Text>
+                                    <TouchableWithoutFeedback
+                                        onPress={() => {
+                                            navigation.push('Product List', {
+                                                headerTitle: 'Best Sellers',
+                                                id: 45,
+                                            });
+                                        }}>
+                                        <Text>Lihat Lebih</Text>
+                                    </TouchableWithoutFeedback>
+                                </View>
+                                <FlatList
+                                    horizontal={true}
+                                    nestedScrollEnabled={true}
+                                    data={bestSellers}
+                                    showsHorizontalScrollIndicator={false}
+                                    style={{
+                                        width: '100%',
+                                    }}
+                                    contentContainerStyle={{
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                    }}
+                                    renderItem={({ item }) => (
+                                        <ItemProduct
+                                            onPress={() =>
+                                                navigation.push(
+                                                    'Detail Product',
+                                                    {
+                                                        urlKey: item.url_key,
+                                                    },
+                                                )
+                                            }
+                                            data={item}
+                                            style={{ width: itemWidth }}
+                                        />
+                                    )}
+                                    keyExtractor={(item) => String(item.id)}
                                 />
-                            )}
-                            keyExtractor={(item) => String(item.id)}
-                        />
+                            </>
+                        )}
                     </View>
                     <View
                         style={{
                             backgroundColor: 'red',
                             paddingVertical: 5,
                             marginBottom: 10,
+                            justifyContent: 'center',
+                            minHeight: 200,
                         }}>
-                        <View
-                            style={{
-                                padding: 10,
-                            }}>
-                            <FlatList
-                                horizontal
-                                nestedScrollEnabled
-                                data={dirumahaja}
-                                showsHorizontalScrollIndicator={false}
+                        {dirumahajaLoading ? (
+                            <ActivityIndicator color="white" size="large" />
+                        ) : (
+                            <View
                                 style={{
-                                    width: '100%',
-                                }}
-                                contentContainerStyle={{
-                                    display: 'flex',
-                                    flexDirection: 'row',
-                                }}
-                                renderItem={({ item }) => (
-                                    <ItemProduct
-                                        onPress={() =>
-                                            navigation.push('Detail Product', {
-                                                urlKey: item.url_key,
-                                            })
-                                        }
-                                        data={item}
-                                        style={{ width: itemWidth }}
-                                    />
-                                )}
-                                keyExtractor={(item) => String(item.id)}
-                            />
-                            <Text
-                                style={{
-                                    textAlign: 'center',
-                                    color: 'white',
-                                    fontWeight: 'bold',
-                                    fontSize: 20,
-                                    marginBottom: 5,
+                                    padding: 10,
                                 }}>
-                                #dirumahaja
-                            </Text>
-                            <TouchableWithoutFeedback
-                                onPress={() => {
-                                    navigation.push('Product List', {
-                                        headerTitle: '#dirumahaja',
-                                        id: 49,
-                                    });
-                                }}>
+                                <FlatList
+                                    horizontal
+                                    nestedScrollEnabled
+                                    data={dirumahaja}
+                                    showsHorizontalScrollIndicator={false}
+                                    style={{
+                                        width: '100%',
+                                    }}
+                                    contentContainerStyle={{
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                    }}
+                                    renderItem={({ item }) => (
+                                        <ItemProduct
+                                            onPress={() =>
+                                                navigation.push(
+                                                    'Detail Product',
+                                                    {
+                                                        urlKey: item.url_key,
+                                                    },
+                                                )
+                                            }
+                                            data={item}
+                                            style={{ width: itemWidth }}
+                                        />
+                                    )}
+                                    keyExtractor={(item) => String(item.id)}
+                                />
                                 <Text
                                     style={{
-                                        color: 'white',
                                         textAlign: 'center',
+                                        color: 'white',
+                                        fontWeight: 'bold',
+                                        fontSize: 20,
+                                        marginBottom: 5,
                                     }}>
-                                    Lihat Lebih
+                                    #dirumahaja
                                 </Text>
-                            </TouchableWithoutFeedback>
-                        </View>
+                                <TouchableWithoutFeedback
+                                    onPress={() => {
+                                        navigation.push('Product List', {
+                                            headerTitle: '#dirumahaja',
+                                            id: 49,
+                                        });
+                                    }}>
+                                    <Text
+                                        style={{
+                                            color: 'white',
+                                            textAlign: 'center',
+                                        }}>
+                                        Lihat Lebih
+                                    </Text>
+                                </TouchableWithoutFeedback>
+                            </View>
+                        )}
                     </View>
                     <View
                         style={{
                             padding: 10,
+                            minHeight: 200,
+                            justifyContent: 'center',
                         }}>
-                        <View
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                            }}>
-                            <Text
-                                style={{
-                                    fontWeight: 'bold',
-                                    fontSize: 20,
-                                    marginBottom: 5,
-                                }}>
-                                Ramadhan Sell
-                            </Text>
-                            <TouchableWithoutFeedback
-                                onPress={() => {
-                                    navigation.push('Product List', {
-                                        headerTitle: 'Ramadhan Sell',
-                                        id: 46,
-                                    });
-                                }}>
-                                <Text>Lihat Lebih</Text>
-                            </TouchableWithoutFeedback>
-                        </View>
-                        <FlatList
-                            horizontal
-                            nestedScrollEnabled
-                            data={ramadhanSell}
-                            showsHorizontalScrollIndicator={false}
-                            style={{
-                                width: '100%',
-                            }}
-                            contentContainerStyle={{
-                                display: 'flex',
-                                flexDirection: 'row',
-                            }}
-                            renderItem={({ item }) => (
-                                <ItemProduct
-                                    onPress={() =>
-                                        navigation.push('Detail Product', {
-                                            urlKey: item.url_key,
-                                        })
-                                    }
-                                    data={item}
+                        {ramadhanSellLoading ? (
+                            <ActivityIndicator color="red" size="large" />
+                        ) : (
+                            <>
+                                <View
                                     style={{
-                                        width: itemWidth,
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                    }}>
+                                    <Text
+                                        style={{
+                                            fontWeight: 'bold',
+                                            fontSize: 20,
+                                            marginBottom: 5,
+                                        }}>
+                                        Ramadhan Sell
+                                    </Text>
+                                    <TouchableWithoutFeedback
+                                        onPress={() => {
+                                            navigation.push('Product List', {
+                                                headerTitle: 'Ramadhan Sell',
+                                                id: 46,
+                                            });
+                                        }}>
+                                        <Text>Lihat Lebih</Text>
+                                    </TouchableWithoutFeedback>
+                                </View>
+                                <FlatList
+                                    horizontal
+                                    nestedScrollEnabled
+                                    data={ramadhanSell}
+                                    showsHorizontalScrollIndicator={false}
+                                    style={{
+                                        width: '100%',
                                     }}
+                                    contentContainerStyle={{
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                    }}
+                                    renderItem={({ item }) => (
+                                        <ItemProduct
+                                            onPress={() =>
+                                                navigation.push(
+                                                    'Detail Product',
+                                                    {
+                                                        urlKey: item.url_key,
+                                                    },
+                                                )
+                                            }
+                                            data={item}
+                                            style={{
+                                                width: itemWidth,
+                                            }}
+                                        />
+                                    )}
+                                    keyExtractor={(item) => String(item.id)}
                                 />
-                            )}
-                            keyExtractor={(item) => String(item.id)}
-                        />
+                            </>
+                        )}
                     </View>
                 </View>
             </ScrollView>

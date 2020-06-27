@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { useNavigation } from '@react-navigation/native';
 import { Card, DragCraousel, Layout, TouchableOpacity } from '@src/component';
 import { product } from '@src/services/graphql';
@@ -15,11 +16,10 @@ const Detail = (props) => {
     const navigation = useNavigation();
     const { params } = props.route;
     const [data, setData] = useState({});
-    const [footerHeight, setFooterHeight] = useState(0);
     const [getProduct, { loading }] = product({
         fetchPolicy: 'cache-and-network',
-        onCompleted: (data) => {
-            const [dataProduct] = data.products.items;
+        onCompleted: (result) => {
+            const [dataProduct] = result.products.items;
             setData(dataProduct);
         },
     });
@@ -33,7 +33,7 @@ const Detail = (props) => {
                 },
             });
         }
-    }, [params]);
+    }, [params, getProduct, navigation]);
 
     if (loading || Object.keys(data).length === 0) {
         return (
