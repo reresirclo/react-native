@@ -30,7 +30,7 @@ const Home = () => {
     const [ramadhanSell, setRamadhanSell] = useState([]);
     const [backCounter, setBackCounter] = useState(0);
     const windowWidth = Dimensions.get('window').width;
-    const itemWidth = (windowWidth * 25) / 100;
+    const itemWidth = (windowWidth * 30) / 100;
 
     const [getBestSellers, { loading: bestSellerLoading }] = productList({
         onCompleted: (data) => {
