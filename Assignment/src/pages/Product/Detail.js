@@ -9,16 +9,19 @@ import {
     ScrollView,
     Text,
     View,
+    Dimensions,
 } from 'react-native';
 import HTMLView from 'react-native-htmlview';
 
-const Detail = (props) => {
+const Detail = props => {
     const navigation = useNavigation();
     const { params } = props.route;
     const [data, setData] = useState({});
+    const windowWidth = Dimensions.get('window').height;
+    const footerHeight = (windowWidth * 7) / 100;
     const [getProduct, { loading }] = product({
         fetchPolicy: 'cache-and-network',
-        onCompleted: (result) => {
+        onCompleted: result => {
             const [dataProduct] = result.products.items;
             setData(dataProduct);
         },
@@ -68,7 +71,13 @@ const Detail = (props) => {
                                 {data.name}
                             </Text>
                             <Text style={{ fontWeight: 'bold', color: 'red' }}>
-                                {`${data.price_range.maximum_price.final_price.currency} ${data.price_range.maximum_price.final_price.value}`}
+                                {`${
+                                    data.price_range.maximum_price.final_price
+                                        .currency
+                                } ${
+                                    data.price_range.maximum_price.final_price
+                                        .value
+                                }`}
                             </Text>
                         </View>
                         <View
@@ -143,10 +152,9 @@ const Detail = (props) => {
                         {(data.more_info &&
                             data.more_info.map((item, index) => {
                                 return (
-                                    <Text
-                                        key={
-                                            index
-                                        }>{`${item.label}: ${item.value}`}</Text>
+                                    <Text key={index}>{`${item.label}: ${
+                                        item.value
+                                    }`}</Text>
                                 );
                             })) || <Text>-</Text>}
                     </Card>
@@ -154,7 +162,7 @@ const Detail = (props) => {
                 <View
                     style={{
                         width: '100%',
-                        height: 50,
+                        height: footerHeight,
                         backgroundColor: 'white',
                         padding: 10,
                     }}>

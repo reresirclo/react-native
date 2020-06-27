@@ -15,8 +15,6 @@ const DragCraousel = ({ data, width }) => {
                 key={`point-${index}`}
                 style={{
                     borderRadius: 2,
-                    borderWidth: 1,
-                    borderColor: 'transparent',
                     width: 8,
                     height: 8,
                     backgroundColor: 'gray',
