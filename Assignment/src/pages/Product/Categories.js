@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { Layout } from '@src/component';
 import { categoryList } from '@src/services/graphql';
 import React, { useEffect, useState } from 'react';
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
 });
 
 const Categories = props => {
-	const { navigation } = props;
+	const navigation = useNavigation();
 	const { params } = props.route;
 	const [categories, setCategories] = useState([]);
 

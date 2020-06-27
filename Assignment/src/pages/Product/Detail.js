@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { Card, DragCraousel, Layout, TouchableOpacity } from '@src/component';
 import { product } from '@src/services/graphql';
 import React, { useEffect, useState } from 'react';
@@ -6,12 +7,12 @@ import {
 	SafeAreaView,
 	ScrollView,
 	Text,
-	View,
+	View
 } from 'react-native';
 import HTMLView from 'react-native-htmlview';
 
 const Detail = props => {
-	const { navigation } = props;
+	const navigation = useNavigation();
 	const { params } = props.route;
 	const [data, setData] = useState({});
 	const [footerHeight, setFooterHeight] = useState(0);

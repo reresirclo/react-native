@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { Layout } from '@src/component';
 import { setNotifications } from '@src/redux/actions';
 import { customerNotificationList } from '@src/services/graphql';
@@ -12,7 +13,8 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-const List = ({ navigation }) => {
+const List = () => {
+	const navigation = useNavigation();
 	const dispatch = useDispatch();
 	const notifications = useSelector(state => state.notifications);
 	const [data, setData] = useState([]);

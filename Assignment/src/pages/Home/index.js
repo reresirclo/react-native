@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { ItemProduct, Swiper } from '@src/component';
 import { setNotifications } from '@src/redux/actions';
 import {
@@ -20,8 +21,9 @@ import {
 import { FlatList } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 
-const Home = ({ navigation }) => {
+const Home = () => {
 	const dispatch = useDispatch();
+	const navigation = useNavigation();
 	const [images, setImages] = useState([]);
 	const [bestSellers, setBestSellers] = useState([]);
 	const [dirumahaja, setDirumahaja] = useState([]);

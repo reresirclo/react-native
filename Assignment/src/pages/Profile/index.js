@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { Layout, TouchableOpacity } from '@src/component';
 import { customer } from '@src/services/graphql';
 import { logout } from '@src/services/helper';
@@ -7,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const Profile = props => {
 	const dispatch = useDispatch();
-	const { navigation } = props;
+	const navigation = useNavigation();
 	const token = useSelector(state => state.token);
 	let content = <ActivityIndicator size="large" color="red" />;
 

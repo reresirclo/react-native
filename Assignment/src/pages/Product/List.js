@@ -1,10 +1,11 @@
+import { useNavigation } from '@react-navigation/native';
 import { ItemProduct, Layout } from '@src/component';
 import { productList } from '@src/services/graphql';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Text } from 'react-native';
 
 const Product = props => {
-	const { navigation } = props;
+	const navigation = useNavigation();
 	const { params } = props.route;
 	const [currentPage, setCurrentPage] = useState(1);
 	const [products, setProducts] = useState([]);
