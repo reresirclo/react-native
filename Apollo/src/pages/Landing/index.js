@@ -4,7 +4,7 @@ import CustomTouchOpacity from '../../component/TouchableOpacity';
 import CustomTextInput from '../../component/TextInput';
 import Layout from '../../component/Layout';
 import { useMutation } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
+import { gql } from 'apollo-boost';;
 
 const CUSTOMER_LOGIN = gql`
 	mutation($username: String!, $password: String!) {
