@@ -4,7 +4,7 @@ import product from './product';
 import token from './token';
 
 export default combineReducers({
-	token,
-	product,
-	notifications,
+    token,
+    product,
+    notifications,
 });

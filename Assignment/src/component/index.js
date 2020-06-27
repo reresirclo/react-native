@@ -10,14 +10,14 @@ import TouchableOpacity from './TouchableOpacity';
 import ItemProduct from './ItemProduct';
 
 export {
-	Layout,
-	TextInput,
-	TouchableOpacity,
-	IconWithBadge,
-	Carousel,
-	Card,
-	DragView,
-	DragCraousel,
-	Swiper,
-	ItemProduct,
+    Layout,
+    TextInput,
+    TouchableOpacity,
+    IconWithBadge,
+    Carousel,
+    Card,
+    DragView,
+    DragCraousel,
+    Swiper,
+    ItemProduct,
 };

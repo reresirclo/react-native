@@ -4,19 +4,19 @@ import Detail from './Detail';
 import List from './List';
 
 const Notifications = () => {
-	const Stack = createStackNavigator();
+    const Stack = createStackNavigator();
 
-	return (
-		<Stack.Navigator>
-			<Stack.Screen name="Notifications" component={List} />
-		</Stack.Navigator>
-	);
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Notifications" component={List} />
+        </Stack.Navigator>
+    );
 };
 
 const createNotifications = () => ({
-	Root: Notifications,
-	List,
-	Detail,
+    Root: Notifications,
+    List,
+    Detail,
 });
 
 export { Notifications, createNotifications };

@@ -6,64 +6,64 @@ import { setNotifications } from '@src/redux/actions';
 import { readNotification } from '@src/services/graphql';
 
 const Detail = props => {
-	const dispatch = useDispatch();
-	const notifications = useSelector(state => state.notifications);
+    const dispatch = useDispatch();
+    const notifications = useSelector(state => state.notifications);
 
-	const { params } = props.route;
+    const { params } = props.route;
 
-	if (!params) {
-		return (
-			<Layout>
-				<ActivityIndicator size="large" color="red" />
-			</Layout>
-		);
-	}
+    if (!params) {
+        return (
+            <Layout>
+                <ActivityIndicator size="large" color="red" />
+            </Layout>
+        );
+    }
 
-	const { id, content, subject, level, unread, createdAt } = params.data;
+    const { id, content, subject, level, unread, createdAt } = params.data;
 
-	const [updateNotification] = readNotification({
-		onCompleted: data => {
-			const { items } = data.readNotification;
-			if (unread) {
-				notifications.totalUnread--;
-				const [notif] = items;
-				const index = notifications.data.findIndex(
-					item => item.entityId === notif.entityId,
-				);
-				notifications.data[index] = notif;
-				dispatch(
-					setNotifications({
-						data: notifications.data,
-						totalUnread: notifications.totalUnread,
-					}),
-				);
-			}
-		},
-	});
+    const [updateNotification] = readNotification({
+        onCompleted: data => {
+            const { items } = data.readNotification;
+            if (unread) {
+                notifications.totalUnread--;
+                const [notif] = items;
+                const index = notifications.data.findIndex(
+                    item => item.entityId === notif.entityId,
+                );
+                notifications.data[index] = notif;
+                dispatch(
+                    setNotifications({
+                        data: notifications.data,
+                        totalUnread: notifications.totalUnread,
+                    }),
+                );
+            }
+        },
+    });
 
-	useEffect(() => {
-		updateNotification({
-			variables: {
-				id,
-			},
-		});
-	}, [id]);
+    useEffect(() => {
+        updateNotification({
+            variables: {
+                id,
+            },
+        });
+    }, [id]);
 
-	return (
-		<Layout style={{ paddingHorizontal: 15 }}>
-			<Text
-				style={{
-					width: '100%',
-					textAlign: 'center',
-					fontSize: 20,
-					fontWeight: 'bold',
-					marginBottom: 25,
-				}}>
-				{subject}
-			</Text>
-			<Text>{content}</Text>
-		</Layout>
-	);
+    return (
+        <Layout style={{ paddingHorizontal: 15 }}>
+            <Text
+                style={{
+                    width: '100%',
+                    textAlign: 'center',
+                    fontSize: 20,
+                    fontWeight: 'bold',
+                    marginBottom: 25,
+                }}>
+                {subject}
+            </Text>
+            <Text>{content}</Text>
+        </Layout>
+    );
 };
 
 export default Detail;

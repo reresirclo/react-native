@@ -6,12 +6,12 @@ import Profile from './Profile';
 import Splashscreen from './Splashscreen';
 
 export {
-	Home,
-	Landing,
-	Notifications,
-	createNotifications,
-	Product,
-	createProduct,
-	Profile,
-	Splashscreen,
+    Home,
+    Landing,
+    Notifications,
+    createNotifications,
+    Product,
+    createProduct,
+    Profile,
+    Splashscreen,
 };

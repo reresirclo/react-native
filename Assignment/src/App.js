@@ -6,13 +6,13 @@ import store from '@src/redux/store';
 import client from '@src/services/graphql/client';
 
 const App = () => {
-	return (
-		<ApolloProvider client={client}>
-			<Provider store={store}>
-				<Root />
-			</Provider>
-		</ApolloProvider>
-	);
+    return (
+        <ApolloProvider client={client}>
+            <Provider store={store}>
+                <Root />
+            </Provider>
+        </ApolloProvider>
+    );
 };
 
 export default App;

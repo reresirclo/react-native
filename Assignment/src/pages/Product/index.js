@@ -5,22 +5,22 @@ import Detail from './Detail';
 import List from './List';
 
 const Product = () => {
-	const Stack = createStackNavigator();
+    const Stack = createStackNavigator();
 
-	return (
-		<Stack.Navigator>
-			<Stack.Screen name="Product" component={Categories} />
-		</Stack.Navigator>
-	);
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Product" component={Categories} />
+        </Stack.Navigator>
+    );
 };
 
 const createProduct = () => {
-	return {
-		Product,
-		Categories,
-		List,
-		Detail,
-	};
+    return {
+        Product,
+        Categories,
+        List,
+        Detail,
+    };
 };
 
 export { Product, createProduct };
