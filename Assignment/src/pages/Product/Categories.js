@@ -9,6 +9,7 @@ import {
     Text,
     TouchableOpacity,
     View,
+    SafeAreaView,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -101,7 +102,7 @@ const Categories = (props) => {
     }
 
     return (
-        <Layout>
+        <SafeAreaView>
             <FlatList
                 scrollEnabled
                 style={{ width: '100%' }}
@@ -116,7 +117,7 @@ const Categories = (props) => {
                 )}
                 keyExtractor={(item) => String(item.id)}
             />
-        </Layout>
+        </SafeAreaView>
     );
 };
 

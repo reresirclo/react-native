@@ -2,9 +2,9 @@ import { useNavigation } from '@react-navigation/native';
 import { ItemProduct, Layout } from '@src/component';
 import { productList } from '@src/services/graphql';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Text } from 'react-native';
+import { ActivityIndicator, FlatList, Text, SafeAreaView } from 'react-native';
 
-const Product = (props) => {
+const Product = props => {
     const navigation = useNavigation();
     const { params } = props.route;
     const [currentPage, setCurrentPage] = useState(1);
@@ -12,7 +12,7 @@ const Product = (props) => {
     const [categoryId, setCategoryId] = useState('');
 
     const [getProducts, { data, loading, error, refetch }] = productList({
-        onCompleted: (data) => {
+        onCompleted: data => {
             setProducts(products.concat(data.products.items));
         },
     });
@@ -58,65 +58,63 @@ const Product = (props) => {
         }
     };
 
-    return (
+    return products.length == 0 ? (
         <Layout>
-            {products.length == 0 ? (
-                <Text>No Product</Text>
-            ) : (
-                <FlatList
-                    onEndReached={loadMore}
-                    onEndReachedThreshold={0.2}
-                    numColumns={2}
-                    style={{
-                        width: '100%',
-                    }}
-                    contentContainerStyle={{
-                        width: '100%',
-                    }}
-                    data={products}
-                    ListFooterComponent={() => {
-                        return (
-                            (!loading &&
-                                data.products.page_info.total_pages ===
-                                    currentPage && (
-                                    <Text
-                                        style={{
-                                            textAlign: 'center',
-                                            fontSize: 25,
-                                            color: 'gray',
-                                        }}>
-                                        End of Product
-                                    </Text>
-                                )) || (
-                                <ActivityIndicator size="large" color="red" />
-                            )
-                        );
-                    }}
-                    ListFooterComponentStyle={{
-                        height: 75,
-                        paddingVertical: 5,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                    renderItem={({ item }) => {
-                        return (
-                            <ItemProduct
-                                onPress={() =>
-                                    navigation.push('Detail Product', {
-                                        urlKey: item.url_key,
-                                    })
-                                }
-                                style={{
-                                    width: '47%',
-                                }}
-                                data={item}
-                            />
-                        );
-                    }}
-                    keyExtractor={(item) => String(item.id)}
-                />
-            )}
+            <Text>No Product</Text>
         </Layout>
+    ) : (
+        <SafeAreaView>
+            <FlatList
+                onEndReached={loadMore}
+                onEndReachedThreshold={0.2}
+                numColumns={2}
+                style={{
+                    width: '100%',
+                }}
+                contentContainerStyle={{
+                    width: '100%',
+                }}
+                data={products}
+                ListFooterComponent={() => {
+                    return (
+                        (!loading &&
+                            data.products.page_info.total_pages ===
+                                currentPage && (
+                                <Text
+                                    style={{
+                                        textAlign: 'center',
+                                        fontSize: 25,
+                                        color: 'gray',
+                                    }}>
+                                    End of Product
+                                </Text>
+                            )) || <ActivityIndicator size="large" color="red" />
+                    );
+                }}
+                ListFooterComponentStyle={{
+                    height: 75,
+                    paddingVertical: 5,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+                renderItem={({ item }) => {
+                    return (
+                        <ItemProduct
+                            onPress={() =>
+                                navigation.push('Detail Product', {
+                                    urlKey: item.url_key,
+                                })
+                            }
+                            style={{
+                                width: '47%',
+                            }}
+                            data={item}
+                        />
+                    );
+                }}
+                keyExtractor={item => String(item.id)}
+            />
+        </SafeAreaView>
     );
 };
 

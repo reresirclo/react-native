@@ -10,6 +10,7 @@ import {
     Text,
     TouchableOpacity,
     View,
+    SafeAreaView,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -98,7 +99,7 @@ const List = () => {
     };
 
     return (
-        <Layout>
+        <SafeAreaView>
             {data.length === 0 ? (
                 <Text>There is no any notification</Text>
             ) : (
@@ -125,7 +126,7 @@ const List = () => {
                     keyExtractor={(item) => String(item.entityId)}
                 />
             )}
-        </Layout>
+        </SafeAreaView>
     );
 };
 
