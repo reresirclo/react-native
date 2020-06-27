@@ -6,10 +6,10 @@ import React from 'react';
 import { ActivityIndicator, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-const Profile = props => {
+const Profile = (props) => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const token = useSelector(state => state.token);
+    const token = useSelector((state) => state.token);
     let content = <ActivityIndicator size="large" color="red" />;
 
     if (!token) {
@@ -17,7 +17,7 @@ const Profile = props => {
     }
 
     const { data } = customer({
-        onError: errors => {
+        onError: (errors) => {
             logout(dispatch);
         },
     });

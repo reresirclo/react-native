@@ -23,20 +23,20 @@ const styles = StyleSheet.create({
     },
 });
 
-const Categories = props => {
+const Categories = (props) => {
     const navigation = useNavigation();
     const { params } = props.route;
     const [categories, setCategories] = useState([]);
 
-    const processCategories = obj => {
+    const processCategories = (obj) => {
         let [root] = obj.categoryList;
-        return root.children.filter(item => {
+        return root.children.filter((item) => {
             return item.children.length > 0 && item.level === 2;
         });
     };
 
     const [getCategories, { data, loading }] = categoryList({
-        onCompleted: data => {
+        onCompleted: (data) => {
             const categories = processCategories(data);
             setCategories(categories);
         },
@@ -114,7 +114,7 @@ const Categories = props => {
                         level={item.level}
                     />
                 )}
-                keyExtractor={item => String(item.id)}
+                keyExtractor={(item) => String(item.id)}
             />
         </Layout>
     );

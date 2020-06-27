@@ -33,24 +33,24 @@ const Home = () => {
     const itemWidth = (windowWidth * 25) / 100;
 
     const [getBestSellers] = productList({
-        onCompleted: data => {
+        onCompleted: (data) => {
             setBestSellers(data.products.items);
         },
     });
     const [getDirumahaja] = productList({
-        onCompleted: data => {
+        onCompleted: (data) => {
             setDirumahaja(data.products.items);
         },
     });
     const [getRamadhanSell] = productList({
-        onCompleted: data => {
+        onCompleted: (data) => {
             setRamadhanSell(data.products.items);
         },
     });
 
     getHompeageSlider({
-        onCompleted: data => {
-            const result = data.getHomepageSlider.images.map(item => {
+        onCompleted: (data) => {
+            const result = data.getHomepageSlider.images.map((item) => {
                 return { url: item.image_url };
             });
 
@@ -59,7 +59,7 @@ const Home = () => {
     });
 
     customerNotificationList({
-        onCompleted: data => {
+        onCompleted: (data) => {
             const { items, totalUnread } = data.customerNotificationList;
             dispatch(
                 setNotifications({
@@ -110,7 +110,7 @@ const Home = () => {
             BackHandler.exitApp();
         }
 
-        setTimeout(function() {
+        setTimeout(function () {
             setBackCounter(0);
         }, 2000);
 
@@ -189,7 +189,7 @@ const Home = () => {
                                     style={{ width: itemWidth }}
                                 />
                             )}
-                            keyExtractor={item => String(item.id)}
+                            keyExtractor={(item) => String(item.id)}
                         />
                     </View>
                     <View
@@ -225,7 +225,7 @@ const Home = () => {
                                         style={{ width: itemWidth }}
                                     />
                                 )}
-                                keyExtractor={item => String(item.id)}
+                                keyExtractor={(item) => String(item.id)}
                             />
                             <Text
                                 style={{
@@ -308,7 +308,7 @@ const Home = () => {
                                     }}
                                 />
                             )}
-                            keyExtractor={item => String(item.id)}
+                            keyExtractor={(item) => String(item.id)}
                         />
                     </View>
                 </View>

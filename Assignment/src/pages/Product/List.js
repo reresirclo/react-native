@@ -4,7 +4,7 @@ import { productList } from '@src/services/graphql';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Text } from 'react-native';
 
-const Product = props => {
+const Product = (props) => {
     const navigation = useNavigation();
     const { params } = props.route;
     const [currentPage, setCurrentPage] = useState(1);
@@ -12,7 +12,7 @@ const Product = props => {
     const [categoryId, setCategoryId] = useState('');
 
     const [getProducts, { data, loading, error, refetch }] = productList({
-        onCompleted: data => {
+        onCompleted: (data) => {
             setProducts(products.concat(data.products.items));
         },
     });
@@ -113,7 +113,7 @@ const Product = props => {
                             />
                         );
                     }}
-                    keyExtractor={item => String(item.id)}
+                    keyExtractor={(item) => String(item.id)}
                 />
             )}
         </Layout>

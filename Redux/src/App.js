@@ -6,7 +6,7 @@ import React from 'react';
 import Landing from './pages/Landing';
 import Profile from './pages/Profile';
 import { Provider } from 'react-redux';
-import store from './redux/store'
+import store from './redux/store';
 
 const client = new ApolloClient({
 	uri: 'https://swiftpwa-be.testingnow.me/graphql',

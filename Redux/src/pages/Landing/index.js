@@ -26,7 +26,7 @@ const Landing = ({ navigation }) => {
 	const [customerLogin, { loading, data, error, called }] = useMutation(
 		CUSTOMER_LOGIN,
 		{
-			onError: error => {
+			onError: (error) => {
 				const msg = error.message;
 
 				if (Platform.OS === 'android') {
@@ -37,9 +37,9 @@ const Landing = ({ navigation }) => {
 
 				txtInputEmail.focus();
 			},
-			onCompleted: data => {
+			onCompleted: (data) => {
 				const { token } = data.generateCustomerToken;
-				dispatch(setToken(token))
+				dispatch(setToken(token));
 				navigation.navigate('Profile');
 			},
 		},
@@ -63,10 +63,10 @@ const Landing = ({ navigation }) => {
 					value={email}
 					returnKeyType="next"
 					blurOnSubmit={false}
-					ref={input => {
+					ref={(input) => {
 						setTxtInputEmail(input);
 					}}
-					onChangeText={txt => {
+					onChangeText={(txt) => {
 						setEmail(txt);
 					}}
 					onSubmitEditing={() => {
@@ -81,10 +81,10 @@ const Landing = ({ navigation }) => {
 					returnKeyType="send"
 					blurOnSubmit={true}
 					onSubmitEditing={doLogin}
-					ref={input => {
+					ref={(input) => {
 						setTxtInputPassword(input);
 					}}
-					onChangeText={txt => {
+					onChangeText={(txt) => {
 						setPassword(txt);
 					}}
 				/>

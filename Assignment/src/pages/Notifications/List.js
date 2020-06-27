@@ -16,13 +16,13 @@ import { useDispatch, useSelector } from 'react-redux';
 const List = () => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
-    const notifications = useSelector(state => state.notifications);
+    const notifications = useSelector((state) => state.notifications);
     const [data, setData] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
     const [getNotifciation, { loading }] = customerNotificationList(
         {
             fetchPolicy: 'cache-and-network',
-            onCompleted: data => {
+            onCompleted: (data) => {
                 const { totalUnread, items } = data.customerNotificationList;
                 dispatch(
                     setNotifications({
@@ -50,7 +50,7 @@ const List = () => {
         }
     }, [data, notifications]);
 
-    const Item = props => {
+    const Item = (props) => {
         return (
             <View style={{ borderBottomWidth: 1 }}>
                 <TouchableOpacity
@@ -122,7 +122,7 @@ const List = () => {
                             createdAt={item.createdAt}
                         />
                     )}
-                    keyExtractor={item => String(item.entityId)}
+                    keyExtractor={(item) => String(item.entityId)}
                 />
             )}
         </Layout>

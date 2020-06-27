@@ -7,25 +7,25 @@ import Landing from './pages/Landing';
 import Profile from './pages/Profile';
 
 const client = new ApolloClient({
-	uri: 'https://lottemart.testingnow.me/graphql',
+    uri: 'https://lottemart.testingnow.me/graphql',
 });
 const Stack = createStackNavigator();
 
 const MyStack = () => (
-	<Stack.Navigator>
-		<Stack.Screen name="Landing" component={Landing} />
-		<Stack.Screen name="Profile" component={Profile} />
-	</Stack.Navigator>
+    <Stack.Navigator>
+        <Stack.Screen name="Landing" component={Landing} />
+        <Stack.Screen name="Profile" component={Profile} />
+    </Stack.Navigator>
 );
 
 const App = () => {
-	return (
-		<ApolloProvider client={client}>
-			<NavigationContainer>
-				<MyStack />
-			</NavigationContainer>
-		</ApolloProvider>
-	);
+    return (
+        <ApolloProvider client={client}>
+            <NavigationContainer>
+                <MyStack />
+            </NavigationContainer>
+        </ApolloProvider>
+    );
 };
 
 export default App;

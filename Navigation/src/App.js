@@ -9,20 +9,20 @@ import Settings from './pages/Settings';
 const Stack = createStackNavigator();
 
 const MyStack = () => (
-	<Stack.Navigator>
-		<Stack.Screen name="Home" component={Home} />
-		<Stack.Screen name="Profile" component={Profile} />
-		<Stack.Screen name="Notifications" component={Notifications} />
-		<Stack.Screen name="Settings" component={Settings} />
-	</Stack.Navigator>
+    <Stack.Navigator>
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="Notifications" component={Notifications} />
+        <Stack.Screen name="Settings" component={Settings} />
+    </Stack.Navigator>
 );
 
 const App = () => {
-	return (
-		<NavigationContainer>
-			<MyStack />
-		</NavigationContainer>
-	);
+    return (
+        <NavigationContainer>
+            <MyStack />
+        </NavigationContainer>
+    );
 };
 
 export default App;

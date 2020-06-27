@@ -7,7 +7,7 @@ import { IconWithBadge } from '../component';
 
 const Tabs = () => {
     const Tab = createBottomTabNavigator();
-    const { totalUnread } = useSelector(state => state.notifications);
+    const { totalUnread } = useSelector((state) => state.notifications);
     const Notifications = createNotifications();
 
     return (

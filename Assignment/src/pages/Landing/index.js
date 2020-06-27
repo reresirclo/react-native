@@ -14,7 +14,7 @@ const Landing = () => {
     const [txtInputPassword, setTxtInputPassword] = useState(createRef());
 
     const [login, { loading }] = customerLogin({
-        onError: error => {
+        onError: (error) => {
             const msg = error.message;
 
             if (Platform.OS === 'android') {
@@ -25,7 +25,7 @@ const Landing = () => {
 
             txtInputEmail.focus();
         },
-        onCompleted: async data => {
+        onCompleted: async (data) => {
             const { token } = data.generateCustomerToken;
             dispatch(setToken(token));
             await AsyncStorage.setItem('token', token);
@@ -53,10 +53,10 @@ const Landing = () => {
                     value={email}
                     returnKeyType="next"
                     blurOnSubmit={false}
-                    ref={input => {
+                    ref={(input) => {
                         setTxtInputEmail(input);
                     }}
-                    onChangeText={txt => {
+                    onChangeText={(txt) => {
                         setEmail(txt);
                     }}
                     onSubmitEditing={() => {
@@ -71,10 +71,10 @@ const Landing = () => {
                     returnKeyType="send"
                     blurOnSubmit={true}
                     onSubmitEditing={doLogin}
-                    ref={input => {
+                    ref={(input) => {
                         setTxtInputPassword(input);
                     }}
-                    onChangeText={txt => {
+                    onChangeText={(txt) => {
                         setPassword(txt);
                     }}
                 />

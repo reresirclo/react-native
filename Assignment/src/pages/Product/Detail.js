@@ -11,14 +11,14 @@ import {
 } from 'react-native';
 import HTMLView from 'react-native-htmlview';
 
-const Detail = props => {
+const Detail = (props) => {
     const navigation = useNavigation();
     const { params } = props.route;
     const [data, setData] = useState({});
     const [footerHeight, setFooterHeight] = useState(0);
     const [getProduct, { loading }] = product({
         fetchPolicy: 'cache-and-network',
-        onCompleted: data => {
+        onCompleted: (data) => {
             const [dataProduct] = data.products.items;
             setData(dataProduct);
         },
@@ -68,13 +68,7 @@ const Detail = props => {
                                 {data.name}
                             </Text>
                             <Text style={{ fontWeight: 'bold', color: 'red' }}>
-                                {`${
-                                    data.price_range.maximum_price.final_price
-                                        .currency
-                                } ${
-                                    data.price_range.maximum_price.final_price
-                                        .value
-                                }`}
+                                {`${data.price_range.maximum_price.final_price.currency} ${data.price_range.maximum_price.final_price.value}`}
                             </Text>
                         </View>
                         <View
@@ -149,9 +143,10 @@ const Detail = props => {
                         {(data.more_info &&
                             data.more_info.map((item, index) => {
                                 return (
-                                    <Text key={index}>{`${item.label}: ${
-                                        item.value
-                                    }`}</Text>
+                                    <Text
+                                        key={
+                                            index
+                                        }>{`${item.label}: ${item.value}`}</Text>
                                 );
                             })) || <Text>-</Text>}
                     </Card>

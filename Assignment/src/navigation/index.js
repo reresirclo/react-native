@@ -13,7 +13,7 @@ import { setToken } from '@src/redux/actions';
 import Tabs from './Tabs';
 
 const Root = () => {
-    const token = useSelector(state => state.token);
+    const token = useSelector((state) => state.token);
     const [loading, setLoading] = useState(true);
     const [fadeOut, setFadeOut] = useState(false);
     const dispatch = useDispatch();

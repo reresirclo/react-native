@@ -2,7 +2,7 @@ import { Layout } from '@src/component';
 import React, { useRef } from 'react';
 import { Animated, Text, View } from 'react-native';
 
-const Splashscreen = props => {
+const Splashscreen = (props) => {
     const fadeAnim = useRef(new Animated.Value(1)).current;
 
     if (props.fadeOut) {

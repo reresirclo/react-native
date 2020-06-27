@@ -6,7 +6,7 @@ import {
     TouchableWithoutFeedback,
     View,
 } from 'react-native';
-const ItemProduct = props => {
+const ItemProduct = (props) => {
     const { data = [] } = props;
 
     if (data.length === 0) {

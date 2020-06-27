@@ -5,9 +5,9 @@ import { Layout } from '@src/component';
 import { setNotifications } from '@src/redux/actions';
 import { readNotification } from '@src/services/graphql';
 
-const Detail = props => {
+const Detail = (props) => {
     const dispatch = useDispatch();
-    const notifications = useSelector(state => state.notifications);
+    const notifications = useSelector((state) => state.notifications);
 
     const { params } = props.route;
 
@@ -22,13 +22,13 @@ const Detail = props => {
     const { id, content, subject, level, unread, createdAt } = params.data;
 
     const [updateNotification] = readNotification({
-        onCompleted: data => {
+        onCompleted: (data) => {
             const { items } = data.readNotification;
             if (unread) {
                 notifications.totalUnread--;
                 const [notif] = items;
                 const index = notifications.data.findIndex(
-                    item => item.entityId === notif.entityId,
+                    (item) => item.entityId === notif.entityId,
                 );
                 notifications.data[index] = notif;
                 dispatch(

@@ -1,10 +1,10 @@
-import React, { useState, createRef } from 'react';
-import { TextInput, View, Platform, ToastAndroid, Alert } from 'react-native';
-import CustomTouchOpacity from '../../component/TouchableOpacity';
-import CustomTextInput from '../../component/TextInput';
-import Layout from '../../component/Layout';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+import React, { createRef, useState } from 'react';
+import { Platform, ToastAndroid, View } from 'react-native';
+import Layout from '../../component/Layout';
+import CustomTextInput from '../../component/TextInput';
+import CustomTouchOpacity from '../../component/TouchableOpacity';
 
 const CUSTOMER_LOGIN = gql`
     mutation($username: String!, $password: String!) {

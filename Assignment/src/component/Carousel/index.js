@@ -13,7 +13,7 @@ const Carousel = ({ data, width }) => {
             onStartShouldSetResponder={() => {
                 arrE = [];
             }}
-            onMoveShouldSetResponder={e => {
+            onMoveShouldSetResponder={(e) => {
                 arrE.push(e.nativeEvent.locationX);
                 const firstX = arrE[0];
                 const lastX = arrE[arrE.length - 1];
@@ -55,7 +55,7 @@ const Carousel = ({ data, width }) => {
                 paddingTop: '100%',
             }}>
             <View
-                onLayout={e => {
+                onLayout={(e) => {
                     setImgContainer(e.nativeEvent.layout);
                 }}
                 style={{

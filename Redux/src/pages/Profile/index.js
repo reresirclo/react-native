@@ -16,10 +16,10 @@ const CUSTOMER = gql`
 	}
 `;
 
-const Profile = props => {
+const Profile = (props) => {
 	const dispatch = useDispatch();
 	const { navigation } = props;
-	const token = useSelector(state => state.token);
+	const token = useSelector((state) => state.token);
 	let content = <ActivityIndicator size="large" color="red" />;
 
 	if (!token) {

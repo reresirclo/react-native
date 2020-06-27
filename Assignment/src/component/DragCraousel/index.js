@@ -56,7 +56,7 @@ const DragCraousel = ({ data, width }) => {
         }).start();
     };
 
-    const swipeCalculation = gestureState => {
+    const swipeCalculation = (gestureState) => {
         const dTreshold = baseWidth._value / 2;
         const vTreshold = 0.1;
         const dx = gestureState.dx;
@@ -160,7 +160,7 @@ const DragCraousel = ({ data, width }) => {
                             }}
                             {...panResponder.panHandlers}>
                             <Animated.Image
-                                onLayout={e => {
+                                onLayout={(e) => {
                                     baseWidth.setValue(
                                         e.nativeEvent.layout.width,
                                     );
