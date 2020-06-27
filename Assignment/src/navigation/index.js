@@ -41,7 +41,7 @@ const Root = () => {
         ) : (
             <RootStack.Navigator>
                 <RootStack.Screen
-                    name="Tab"
+                    name="Back"
                     options={{ headerShown: false }}
                     component={Tabs}
                 />

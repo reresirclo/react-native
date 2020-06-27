@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Layout } from '@src/component';
 import { setNotifications } from '@src/redux/actions';
 import { readNotification } from '@src/services/graphql';
+import { useNavigation } from '@react-navigation/native';
 
 const Detail = (props) => {
     const dispatch = useDispatch();
+    const navigation = useNavigation();
     const notifications = useSelector((state) => state.notifications);
 
     const { params } = props.route;
